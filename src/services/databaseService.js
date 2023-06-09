@@ -1,4 +1,6 @@
-const knex = require('knex')({
+const knex = require('knex');
+
+const db = knex({
   client: 'mysql',
   connection: {
     host: process.env.DB_HOST,
@@ -9,11 +11,12 @@ const knex = require('knex')({
   }
 });
 
+
 const databaseServiceFactory = () => {
   const TABLE = 'users';
 
   const getUser = async (username) => {
-    const user = await knex(TABLE).select().where('username', username);
+    const user = await db(TABLE).select().where('username', username);
     if (user.length === 0) {
       throw new Error("User not found");
     }
@@ -23,6 +26,9 @@ const databaseServiceFactory = () => {
   return { getUser };
 };
 
+
+
 module.exports = {
-  databaseServiceFactory
-};
+  databaseServiceFactory,
+  db
+}
