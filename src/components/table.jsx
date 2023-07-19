@@ -1,114 +1,105 @@
-import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
-import EditIcon from '@mui/icons-material/Edit';
-import SimpleModal from './modal';
-import Box from '@mui/material/Box';
+import React, { useState } from 'react';
+import SimpleModal from './Mui/modal';
+import axios from 'axios';
 
+export default function TableResponsive({ columns, rows, optional }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [formData, setFormData] = useState({});
+  const usersPerPage = 15;
 
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = rows.slice(indexOfFirstUser, indexOfLastUser);
 
-export default function TableResponsive({ columns, rows }) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [search, setSearch] = React.useState('')
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const handleNextPage = () => {
+    if (indexOfLastUser < rows.length) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
-  const checkSearchUser = (e) => {
-    const val = e.target.value.toUpperCase()
-    const newUsers = []
-    rows.map((item, i) => {
-      if (
-        item.name.toUpperCase().indexOf(val) !== -1 ||
-        item.lastname.toUpperCase().indexOf(val) !== -1 ||
-        val === ""
-      ) {
-        newUsers.push(item);
+  const handleChange = ({ target }) => {
+    setFormData({ ...formData, [target.name]: target.value })
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put('/api/clients/editClient', formData)
+      if (response.status === 200) {
+        console.log('Usuario editado con exito')
+      } else {
+        console.error(response.data.message)
       }
-      rows
-    });
-  }
-
-  const searcher = (e) => {
-    setSearch(e.target.value)
-  }
-
-  let results = []
-  if (!search) {
-    results = rows
-  } else {
-    results = rows.map(i => i.name).filter((date) => {
-      date.toLowerCase().includes(search.toLocaleLowerCase())
-    })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
-    <Paper sx={{ width: '80%', textAlign: 'center', alignItems: 'center' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TextField id="outlined-basic" label="Buscar cliente" variant="outlined" value={search} onChange={searcher} />
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ top: 57, minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {results
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+    <>
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+            <tr>
+              {columns.map((i) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <>
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        </>
-                      );
-                    })}
-                  </TableRow>
-                );
+                  <>
+                    <th scope="col" class="px-6 py-3" key={i.id}>
+                      {i.label}
+                    </th>
+                  </>
+                )
               })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+            </tr>
+          </thead>
+          <tbody>
+            {currentUsers.map((i) => {
+              return (
+                <tr id={i.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {i.label}
+                  </th>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+        <nav class="flex items-center justify-between pt-4" aria-label="Table navigation">
+          <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+            Mostrando
+            <span class="font-semibold text-gray-900 dark:text-white">
+              {indexOfFirstUser + 1} - {indexOfLastUser > rows.length ? rows.length : indexOfLastUser}
+            </span> clientes de <span class="font-semibold text-gray-900 dark:text-white">
+              {rows.length}
+            </span>
+          </span>
+          <ul class="inline-flex -space-x-px text-sm h-8">
+            <li>
+              <a
+                onClick={handlePreviousPage}
+                href="#"
+                class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Previous
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={handleNextPage}
+                href="#"
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </>
   );
 }

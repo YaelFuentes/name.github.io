@@ -13,25 +13,25 @@ const Pagos = () => {
   const tabsContent = [
     {
       content:
-        <>
+        <div>
           <PaymentDebt />
-        </>
+        </div>
     },
     {
       content:
-        <>
+        <div>
           <NewPays />
-        </>
+        </div>
     },
     {
       content:
-        <>
+        <div>
           <div>estas</div>
-        </>
+        </div>
     },
   ];
   return (
-    <>
+    <div>
       <div>
         <Head>
           <title>Mevep</title>
@@ -43,7 +43,7 @@ const Pagos = () => {
           tabsContent={tabsContent}
         />
       </div>
-    </>
+    </div>
   )
 }
 

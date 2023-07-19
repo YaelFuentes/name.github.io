@@ -8,7 +8,6 @@ import ResponsiveAppBar from '@/layout/headers'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({ user }) {
-  console.log(user)
   return (
     <main className={`${inter.className}`}>
       <div>

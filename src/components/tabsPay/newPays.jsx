@@ -1,37 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '../Mui/Button';
 
 const NewPays = () => {
-  const [monto, setMonto] = useState('');
-  const [meses, setMeses] = useState(1);
-  const [anio, setAnio] = useState('');
-  const [id, setId] = useState('');
+  const [formData, setFormData] = useState({});
+  const [meses, setMeses] = useState(0);
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
-
-  const handleMontoChange = (e) => {
-    setMonto(e.target.value);
-  };
 
   const handleMesesChange = (e) => {
     const selectedMeses = parseInt(e.target.value, 10);
     setMeses(selectedMeses);
+    setFormData({ ...formData, meses: selectedMeses });
+  };
+
+  const handleChange = ({ target }) => {
+    setFormData({ ...formData, [target.name]: target.value })
+  };
+
+  const calculateDueDate = () => {
     const newDate = new Date(currentDate.getTime());
-    newDate.setMonth(currentDate.getMonth() + selectedMeses);
-    setAnio(newDate.getFullYear().toString());
+    newDate.setMonth(currentDate.getMonth() + meses);
+    return newDate.toDateString();
   };
 
-  const handleAnioChange = (e) => {
-    setAnio(e.target.value);
-  };
-
-  const handleIdChange = (e) => {
-    setId(e.target.value);
-  };
-
-  const insertDue = (e) => {
+  const insertDue = async (e) => {
     e.preventDefault();
-    
+    try {
+      const response = await axios.post('/api/dues/newDues', formData)
+      if (response.status == 200) {
+        console.log('Deuda ingresada con exito')
+      }
+    } catch {
+      console.error(response.data.message)
+    }
+
   }
 
   return (
@@ -41,50 +45,40 @@ const NewPays = () => {
         <div className="mb-4">
           <label className="block mb-2">Número de Socio:</label>
           <input
+            name='membershipNum'
             type="text"
-            value={id}
-            onChange={handleIdChange}
+            defaultValue={formData.membershipNumber}
+            onChange={handleChange}
             className="border rounded px-2 py-1 w-full"
           />
         </div>
         <div className="mb-4">
           <label className="block mb-2">Monto:</label>
           <input
+            name='amount'
             type="text"
-            value={monto}
-            onChange={handleMontoChange}
+            onChange={handleChange}
             className="border rounded px-2 py-1 w-full"
           />
         </div>
         <div className="mb-4">
           <label className="block mb-2">Meses:</label>
-          <select
-            value={meses}
-            onChange={handleMesesChange}
-            className="border rounded px-2 py-1 w-full"
-          >
-            <option value={1}>1 mes</option>
-            <option value={2}>2 meses</option>
-            <option value={3}>3 meses</option>
-            {/* Agregar más opciones si es necesario */}
+          <select name="month" id="month" onChange={handleMesesChange}>
+            {months.map((month) => (
+              <option key={month} value={month}>
+                {month} mes(es)
+              </option>
+            ))}
           </select>
         </div>
         <div className="mb-4">
-          <label className="block mb-2">Fecha:</label>
+          <label className="block mb-2">Cobertura hasta :</label>
           <p>
-            {new Date(currentDate.setMonth(currentDate.getMonth() + meses)).toDateString()}
+            {/* {new Date(currentDate.setMonth(currentDate.getMonth() + formData.meses)).toDateString()} */}
+            {calculateDueDate()}
           </p>
         </div>
-        <div className="mb-4">
-          <label className="block mb-2">Año:</label>
-          <input
-            type="text"
-            value={anio}
-            onChange={handleAnioChange}
-            className="border rounded px-2 py-1 w-full"
-          />
-        </div>
-        <Button name={'Cargar pago'} className='py-4 items-center text-center'/>
+        <Button name={'Cargar pago'} className='py-4 items-center text-center' />
       </form>
     </div>
   );

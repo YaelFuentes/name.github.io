@@ -11,19 +11,19 @@ const Turnos = () => {
   const tabsContent = [
     {
       content:
-        <>
+        <div>
           <div>hola</div>
-        </>
+        </div>
     },
     {
       content:
-        <>
+        <div>
           <div>como</div>
-        </>
+        </div>
     },
   ];
   return (
-    <>
+    <div>
       <div>
         <Head>
           <title>Mevep</title>
@@ -35,7 +35,7 @@ const Turnos = () => {
           tabsContent={tabsContent}
         />
       </div>
-    </>
+    </div>
   )
 }
 

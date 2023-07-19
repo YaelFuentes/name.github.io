@@ -88,11 +88,35 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {/* {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
+              <Box onClick={handleCloseNavMenu}>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  
+                >
+                  <Link href='/'>Inicio</Link>
+                </Button>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  
+                >
+                  <Link href='/socios'>Socios</Link>
+                </Button>
+                <Button
+                  onClick={handleCloseNavMenu}
+                >
+                  <Link href='/pagos'>Pagos</Link>
+                </Button>
+                <Button
+                  onClick={handleCloseNavMenu}
+                >
+                  <Link href='/turnos'>Turnos</Link>
+                </Button>
+              </Box>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -126,6 +150,12 @@ function ResponsiveAppBar() {
               sx={{ my: 2, color: 'white', display: 'block', marginLeft: '20px' }}
             >
               <Link href='/socios'>Socios</Link>
+            </Button>
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block', marginLeft: '20px' }}
+            >
+              <Link href='/mercaderia'>Mercaderia</Link>
             </Button>
             <Button
               onClick={handleCloseNavMenu}

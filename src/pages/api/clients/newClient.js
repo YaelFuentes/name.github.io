@@ -2,7 +2,7 @@ import { db } from "@/services/databaseService";
 
 export default async function newClientServiceFactory(req, res) {
   const TABLE = 'clients';
-  const { membershipNum, name, lastname, phone, address } = req.body;
+  const { membershipNum, name, lastname, phone, address, dni, email } = req.body;
   try {
     const data = await db(TABLE)
       .insert({
@@ -10,7 +10,9 @@ export default async function newClientServiceFactory(req, res) {
         name: name,
         lastname: lastname,
         phone: phone,
-        address: address
+        address: address,
+        email: email,
+        dni: dni
       });
     res.status(200).json(data);
   } catch (err) {
