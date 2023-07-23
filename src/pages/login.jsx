@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { userServiceFactory } from "../clientServices/userService";
+// import { userServiceFactory } from "../clientServices/userService";
 import useUser from "../lib/useUser";
 import Loading from '@/components/loading'
 
-const userService = userServiceFactory();
+// const userService = userServiceFactory();
 
 export default function Login() {
   const { user, mutateUser } = useUser({
@@ -21,7 +21,7 @@ export default function Login() {
     try {
       setIsLoading(true);
       setTimeout(async () => {
-        mutateUser(await userService.login(username, password));
+        // mutateUser(await userService.login(username, password));
         setIsLoading(false);
       }, 2000)
     } catch (error) {

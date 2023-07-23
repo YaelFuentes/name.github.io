@@ -12,7 +12,6 @@ const montserrat = Montserrat({
   variable: "--font-mont"
 })
 
-
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,8 +22,10 @@ function MyApp({ Component, pageProps }) {
   }
 
   useEffect(() => {
-    const isAuthenticated = checkIfUserIsLoggedIn(); 
+    fetch('/api/clients/client')
+    .then(res => console.log(res))
 
+    const isAuthenticated = checkIfUserIsLoggedIn(); 
     setIsLoggedIn(isAuthenticated);
   }, []);
 
