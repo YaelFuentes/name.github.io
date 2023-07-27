@@ -169,6 +169,12 @@ function ResponsiveAppBar() {
             >
               <Link href='/turnos'>Turnos</Link>
             </Button>
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block', marginLeft: '20px' }}
+            >
+              <Link href='/facturacion'>Facturacion</Link>
+            </Button>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

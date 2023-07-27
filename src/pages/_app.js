@@ -5,6 +5,7 @@ import { Montserrat } from "next/font/google"
 import { useRouter } from 'next/router'
 import ResponsiveAppBar from '@/layout/headers'
 import { useState, useEffect } from 'react'
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
 
 const montserrat = Montserrat({
@@ -19,11 +20,11 @@ function MyApp({ Component, pageProps }) {
 
   function checkIfUserIsLoggedIn() {
     const token = localStorage.getItem('token');
-    return !!token; 
+    return !!token;
   }
 
   useEffect(() => {
-    const isAuthenticated = checkIfUserIsLoggedIn(); 
+    const isAuthenticated = checkIfUserIsLoggedIn();
 
     setIsLoggedIn(isAuthenticated);
   }, []);
@@ -36,6 +37,7 @@ function MyApp({ Component, pageProps }) {
   }, [isLoggedIn, router.pathname]);
 
   const isLoginPage = router.pathname === '/login'; // Verificar si la ruta actual es la página de inicio de sesión
+  const apiKey = 'AIzaSyAzPcAiZC1Wz5VcNUpYZi5n2j05b2G_V8Y'
 
   return (
     <main className={`${montserrat.variable} font-mont bg-light dark:bg-dark w-full min-h-screen`}>
@@ -48,7 +50,10 @@ function MyApp({ Component, pageProps }) {
           },
         }}
       >
-        <Component key={router.asPath} {...pageProps} />
+        <LoadScript googleMapsApiKey={apiKey}>
+          <Component key={router.asPath} {...pageProps} />
+        </LoadScript>
+
       </SWRConfig>
     </main>
   );

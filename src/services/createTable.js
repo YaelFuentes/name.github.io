@@ -1,7 +1,7 @@
 import { db } from '@/services/databaseService'
 
 async function createTable() {
-  try { 
+  try {
 
     //Tabla clientes
     const clientTable = await db.schema.hasTable('clients')
@@ -35,10 +35,21 @@ async function createTable() {
     } else {
       console.log('Tabla creada')
     }
+
+    //Tabla deudas
+    const duesTable = await db.schema.hasTable('dues')
+    if (!duesTable) {
+      await db.schema.createTable('dues', (table) => {
+        table.increments('id').primary().notNullable()
+        table.integer('membershipNum')
+        table.date('period')
+        table.integer('amount')
+      })
+    } else {
+      console.log('Tabla creada')
+    }
   } catch (e) {
     console.log(e)
-  } finally {
-
   }
 }
 
