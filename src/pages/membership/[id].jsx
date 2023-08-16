@@ -9,10 +9,10 @@ const idMembership = () => {
  
   const tabsData = [
     {
-      title: 'Tab 1',
+      title: 'Informacion',
       content: <InfoClientCard id={clientId}/>
     },
-    { title: 'Tab 2', content: 'Contenido de la Tab 2' },
+    { title: 'Historial medico', content: 'Contenido de la Tab 2' },
     { title: 'Tab 3', content: 'Contenido de la Tab 3' },
   ];
 

@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     fetch('/api/clients/client')
-    .then(res => console.log(res))
+    .then(res => console.log())
 
     const isAuthenticated = checkIfUserIsLoggedIn(); 
     setIsLoggedIn(isAuthenticated);
@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }) {
   }, [isLoggedIn, router.pathname]);
 
   const isLoginPage = router.pathname === '/login'; // Verificar si la ruta actual es la página de inicio de sesión
-  const apiKey = process.env.API_KEY
+  const apiKey = 'AIzaSyAzPcAiZC1Wz5VcNUpYZi5n2j05b2G_V8Y'
 
   return (
     <main className={`${montserrat.variable} font-mont bg-light dark:bg-dark w-full min-h-screen`}>
@@ -54,7 +54,6 @@ function MyApp({ Component, pageProps }) {
         <LoadScript googleMapsApiKey={apiKey}>
           <Component key={router.asPath} {...pageProps} />
         </LoadScript>
-
       </SWRConfig>
     </main>
   );

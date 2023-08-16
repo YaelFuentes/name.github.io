@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Link from 'next/link'
+import { Button, Modal, TextField } from '@mui/material';
+import { Edit } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 
 export default function TableResponsive({ columns, rows, optional }) {
@@ -8,6 +9,8 @@ export default function TableResponsive({ columns, rows, optional }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState({});
   const usersPerPage = 15;
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -25,6 +28,11 @@ export default function TableResponsive({ columns, rows, optional }) {
     }
   };
 
+  const handleEdit = (userId) => {
+    setEditingUserId(userId);
+    setModalOpen(true);
+  };
+
   const handleChange = ({ target }) => {
     setFormData({ ...formData, [target.name]: target.value })
   };
@@ -32,9 +40,11 @@ export default function TableResponsive({ columns, rows, optional }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('/api/clients/editClient', formData)
+      const response = await axios.put(`/api/clients/clientclient?id=${id}`, formData)
       if (response.status === 200) {
-        console.log('Usuario editado con exito')
+        console.log('Usuario editado con éxito');
+        setModalOpen(false);
+        setEditingUserId(null);
       } else {
         console.error(response.data.message)
       }
@@ -61,24 +71,38 @@ export default function TableResponsive({ columns, rows, optional }) {
             </tr>
           </thead>
           <tbody>
-            {currentUsers.map((i) => {
-              return (
-                <tr id={i.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  {columns.map((column) => (
-                    <td class="px-6 py-4" key={`${i.id}-${column.id}`} >
-                      <button /* href={`/membership/${i.id}`} */ onClick={() => {
-                        router.push({
-                          pathname: `/membership/[id]`,
-                          query: {id: i.membershipNum}
-                        })
-                      }}>
-                        {i[column.id]}
-                      </button>
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
+            {currentUsers.map((i) => (
+              <tr key={i.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                {columns.map((column) => (
+                  <td key={`${i.id}-${column.id}`} className="px-6 py-4">
+                    {column.id === 'edit' ? (
+                      <Button variant="outlined" onClick={() => handleEdit(i.id)}>
+                        <Edit />
+                      </Button>
+                    ) : (
+                      i[column.id]
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+            <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+              <div className="modal">
+                <h2>Editar Usuario</h2>
+                <form onSubmit={handleSubmit}>
+                  {/* Campos de edición */}
+                  <TextField
+                    label="Nombre"
+                    name="name"
+                    value={formData.name || ''}
+                    onChange={handleChange}
+                  />
+                  <Button variant="contained" type="submit">
+                    Guardar Cambios
+                  </Button>
+                </form>
+              </div>
+            </Modal>
           </tbody>
         </table>
         <nav class="flex items-center justify-between pt-4" aria-label="Table navigation">

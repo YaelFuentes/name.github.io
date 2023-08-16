@@ -13,7 +13,7 @@ class ClientService {
 
   async getById(id) {
     try {
-      const client = await db("client").where("id", id).first();
+      const client = await db("clients").where("membershipNum", id).first();
       return client;
     } catch (error) {
       console.error("Error fetching client by ID:", error);
@@ -23,8 +23,7 @@ class ClientService {
 
   async getAll() {
     try {
-      const clients = await db("client");
-      console.log(clients);
+      const clients = await db("clients");
       return clients;
     } catch (error) {
       console.error("Error fetching all clients:", error);
@@ -35,7 +34,7 @@ class ClientService {
   async updateByIds(updates) {
     try {
       const promises = updates.map((update) =>
-        db("client").where("id", update.id).update(update)
+        db("clients").where("id", update.id).update(update)
       );
 
       await Promise.all(promises);
@@ -48,7 +47,7 @@ class ClientService {
 
   async deleteByIds(ids) {
     try {
-      await db("client").whereIn("id", ids).del();
+      await db("clients").whereIn("id", ids).del();
       return true;
     } catch (error) {
       console.error("Error deleting client by ID:", error);

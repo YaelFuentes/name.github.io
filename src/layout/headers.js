@@ -14,7 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from 'next/link';
 
-const pages = ['Turnos'];
 const settings = ['Profile', 'Account', 'Dashboard'];
 
 function ResponsiveAppBar() {
@@ -40,7 +39,7 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap
@@ -56,7 +55,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            MEVEP
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -96,13 +95,13 @@ function ResponsiveAppBar() {
               <Box onClick={handleCloseNavMenu}>
                 <Button
                   onClick={handleCloseNavMenu}
-                  
+
                 >
                   <Link href='/'>Inicio</Link>
                 </Button>
                 <Button
                   onClick={handleCloseNavMenu}
-                  
+
                 >
                   <Link href='/socios'>Socios</Link>
                 </Button>
