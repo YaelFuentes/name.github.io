@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     case 'GET':
       if (req.query.id) {
         const patientId = parseInt(req.query.id);
-        const patient = await PatientController.getById(patientId);
+        const patient = await PatientController.getPatientById(patientId);
         res.json(patient)
       } else {
         const patients = await PatientController.getAllPatients();

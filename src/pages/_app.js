@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }) {
   }, [isLoggedIn, router.pathname]);
 
   const isLoginPage = router.pathname === '/login'; // Verificar si la ruta actual es la página de inicio de sesión
-  const apiKey = 'AIzaSyAzPcAiZC1Wz5VcNUpYZi5n2j05b2G_V8Y'
+  const apiKey = process.env.API_KEY
 
   return (
     <main className={`${montserrat.variable} font-mont bg-light dark:bg-dark w-full min-h-screen`}>
