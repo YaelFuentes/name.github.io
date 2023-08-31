@@ -1,4 +1,4 @@
-import { db } from '@/services/databaseService'
+import { db } from '@/core/connection/databaseService'
 
 export default async function productUpdateServiceFactory(req, res) {
   const TABLE = 'products'

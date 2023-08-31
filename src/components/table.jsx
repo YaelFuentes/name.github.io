@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 
 import axios from 'axios';
+import Link from 'next/link'
+import { useRouter } from 'next/router';
 
 export default function TableResponsive({ columns, rows, optional }) {
+  const router = useRouter()
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState({});
   const usersPerPage = 15;
@@ -46,7 +49,6 @@ export default function TableResponsive({ columns, rows, optional }) {
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-
             <tr>
               {columns.map((i) => {
                 return (
@@ -64,8 +66,15 @@ export default function TableResponsive({ columns, rows, optional }) {
               return (
                 <tr id={i.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   {columns.map((column) => (
-                    <td class="px-6 py-4">
-                      {i[column.id]}
+                    <td class="px-6 py-4" key={`${i.id}-${column.id}`} >
+                      <button /* href={`/membership/${i.id}`} */ onClick={() => {
+                        router.push({
+                          pathname: `/membership/[id]`,
+                          query: {id: i.membershipNum}
+                        })
+                      }}>
+                        {i[column.id]}
+                      </button>
                     </td>
                   ))}
                 </tr>
