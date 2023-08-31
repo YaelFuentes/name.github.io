@@ -12,6 +12,7 @@
     "@emotion/cache": "^11.6.0",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.4.0",
+    "@lottiefiles/react-lottie-player": "^3.5.3",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.70",

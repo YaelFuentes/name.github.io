@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SimpleModal from './Mui/modal';
+
 import axios from 'axios';
 
 export default function TableResponsive({ columns, rows, optional }) {

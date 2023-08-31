@@ -1,6 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
 import VerticalTabs from '@/components/tabs';
+import Medical from '@/components/Shift/medical';
+import Groomer from '@/components/Shift/groomer';
 
 const Turnos = () => {
   const tabs = [
@@ -10,16 +12,10 @@ const Turnos = () => {
   ];
   const tabsContent = [
     {
-      content:
-        <div>
-          <div>hola</div>
-        </div>
+      content: <Medical />
     },
     {
-      content:
-        <div>
-          <div>como</div>
-        </div>
+      content: <Groomer />
     },
   ];
   return (
