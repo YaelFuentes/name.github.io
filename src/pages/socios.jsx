@@ -59,7 +59,6 @@ const socios = () => {
             membershipNum: lastElement.membershipNum
           });
         }
-        console.log(combinedArray);
       } catch (error) {
         console.error(error);
       }

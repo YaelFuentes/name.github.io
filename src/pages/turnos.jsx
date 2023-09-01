@@ -3,12 +3,13 @@ import Head from 'next/head';
 import VerticalTabs from '@/components/tabs';
 import Medical from '@/components/Shift/medical';
 import Groomer from '@/components/Shift/groomer';
+import ListShift from '@/components/Shift/listShift';
 
 const Turnos = () => {
   const tabs = [
     { label: 'Turno Medico' },
     { label: 'Turno Peluqueria' },
-
+    { label: 'Consultorio' },
   ];
   const tabsContent = [
     {
@@ -16,6 +17,9 @@ const Turnos = () => {
     },
     {
       content: <Groomer />
+    },
+    {
+      content: <ListShift />
     },
   ];
   return (
