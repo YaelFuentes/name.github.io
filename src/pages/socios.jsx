@@ -11,6 +11,7 @@ const socios = () => {
   const [formData, setFormData] = useState({});
   const [filteredClient, setFilteredClient] = useState(client);
   const [lastMembershipNum, setLastMembershipNum] = useState('');
+  
 
   const headers = [
     { id: 'membershipNum', label: 'Numero Socio', minWidth: 170 },
@@ -20,8 +21,8 @@ const socios = () => {
     { id: 'address', label: 'Direccion', minWidth: 100 },
     { id: 'namePatient', label: 'Mascota', minWidth: 100 },
     { id: 'race', label: 'Raza', minWidth: 100 },
-    { id: 'list', label: 'Lista espera', minWidth: 100 },
-    { id: 'edit', label: 'Editar', minWidth: 100 }
+    /* { id: 'list', label: 'Lista espera', minWidth: 100 },
+    { id: 'edit', label: 'Editar', minWidth: 100 } */
   ];
 
   useEffect(() => {
@@ -289,17 +290,14 @@ const socios = () => {
                 <div id="alert-container"></div>
               </div>
             </div>
-            <TableResponsive columns={headers} rows={filteredClient} optional={
-              <>
-                <SimpleModal
-                  nameButton='Editar'
-                  text={`Editar socio Nro `}
-                  optional={
-                    <>
-                    </>
-                  } />
-              </>
-            } />
+            <TableResponsive
+              columns={headers}
+              rows={filteredClient}
+              optional={
+                <>
+                  <button>hola</button>
+                </>
+              } />
           </div>
 
         </Layout>

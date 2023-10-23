@@ -6,6 +6,10 @@ class ClientController {
     return await this.clientService.getById(id);
   }
 
+  static async createClient(clientData) {
+    return await this.clientService.create(clientData);
+  }
+
   static async getAllClients() {
     return await this.clientService.getAll();
   }

@@ -19,7 +19,7 @@ const Mercaderia = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/products/getProducts');
+        const response = await axios.get('/api/products/products');
         setProducts(response.data)
       } catch (e) {
         console.error('Error al ingresar los datos: ', e)

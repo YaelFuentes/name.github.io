@@ -13,6 +13,11 @@ export default async function handler(req, res) {
         res.json(clients);
       }
       break;
+      case 'POST':
+        const fieldsUpdate= req.body;
+        const client = await ClientController.createClient(fieldsUpdate);
+        res.status(201).json(client)
+        break;
     case 'PUT':
       const clientId = parseInt(req.query.id);
       const fieldsToUpdate = req.body;
@@ -41,3 +46,9 @@ export default async function handler(req, res) {
 //     res.status(500).json({ err: 'Error al obtener los datos' });
 //   }
 // }
+
+/* case 'POST':
+      const fieldsUpdate= req.body;
+      const client = await ClientController.postClient(fieldsUpdate);
+      res.json(client)
+      break; */

@@ -9,6 +9,7 @@ export default function TableResponsive({ columns, rows, optional }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState({});
   const usersPerPage = 15;
+  optional = optional || '';
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -67,14 +68,15 @@ export default function TableResponsive({ columns, rows, optional }) {
                 <tr id={i.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   {columns.map((column) => (
                     <td class="px-6 py-4" key={`${i.id}-${column.id}`} >
-                      <button /* href={`/membership/${i.id}`} */ onClick={() => {
+                      <button onClick={() => {
                         router.push({
                           pathname: `/membership/[id]`,
-                          query: {id: i.membershipNum}
+                          query: { id: i.membershipNum }
                         })
                       }}>
                         {i[column.id]}
                       </button>
+
                     </td>
                   ))}
                 </tr>

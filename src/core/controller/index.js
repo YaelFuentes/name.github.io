@@ -5,3 +5,4 @@ export { default as ProductController } from "./product.controller";
 export { default as PatientController } from "./patient.controller"
 export { default as MedicalController } from "./medical.controller";
 export { default as ConsultingController } from "./consulting.controller";
+export { default as QueueController } from "./queue.controller";

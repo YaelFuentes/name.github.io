@@ -31,6 +31,17 @@ class ClientService {
     }
   }
 
+  async create(newClientData) {
+    try {
+      const [newClientId] = await db('clients').insert(newClientData);
+      return newClientId;
+    } catch (error) {
+      console.error('Error creating a new client:', error);
+      return null;
+    }
+  }
+
+
   async updateByIds(updates) {
     try {
       const promises = updates.map((update) =>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import Button from './Mui/Button';
 
 const InfoClientCard = ({ id }) => {
   const [client, setClient] = useState([]);
@@ -9,7 +10,10 @@ const InfoClientCard = ({ id }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/api/clients/client?id=${id}`);
+        const responsePatient = await axios.get(`/api/patients/patient?id=${id}`);
+        const dataPatient = responsePatient.data;
         const data = response.data;
+        setPatient(dataPatient)
         setClient(data);
       } catch (err) {
         console.error(err);
@@ -17,18 +21,22 @@ const InfoClientCard = ({ id }) => {
     }
     fetchData()
   }, [id])
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`/api/patients/patient?id=${id}`);
-        const data = response.data;
-        setPatient(data)
-      } catch (err) {
-        console.error(err)
+  console.log(client, patient)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try{
+      const response = await axios.post('/api/queue/newQueue', client.membershipNum, patient.namePatient)
+      if(response.status === 200){
+        console.log('Añadido a la cola exitosamente')
+      }else {
+        console.error(response.data.message)
       }
+    }catch(e){
+      console.error(error)
     }
-    fetchData()
-  }, [id])
+  }
+  
   return (
     <div>
       <div>
@@ -71,6 +79,14 @@ const InfoClientCard = ({ id }) => {
           <h3>Color : <span className='font-bold'>{patient.color}</span></h3>
           <h3>Genero : <span className='font-bold'>{patient.gender}</span></h3>
           <h3>Numero de identificacion : <span className='font-bold'>{patient.identification ? patient.identification : ' - '}</span></h3>
+        </div>
+      </div>
+      <div className='relative'>
+        <div className='fixed right-0 bottom-0 max-w-xs p-4'>
+          <Button
+            colorbg={'secondary'}
+            color='secondary'
+            name={'Lista de espera'} />
         </div>
       </div>
     </div>
