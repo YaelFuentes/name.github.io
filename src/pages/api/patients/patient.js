@@ -12,19 +12,24 @@ export default async function handler(req, res) {
         res.json(patients)
       }
       break;
+    case 'POST':
+      const fieldsUpdate = req.body;
+      const client = await PatientController.createPatient(fieldsUpdate);
+      res.status(201).json(client)
+      break;
     case 'PUT':
       const patientId = parseInt(req.query.id);
       const fieldsToUpdate = req.body;
       await PatientController.udpateClientById(patientId, fieldsToUpdate);
       res.json({ success: true })
       break;
-    case 'DELETE' : 
-    const patientIds = parseInt(req.query.id);
-    await PatientController.deletePatientById(patientIds);
-    res.json({success : true});
-    break;
-    default: 
-    res.status(405).end(); // Method Not Allowed
-    break;
+    case 'DELETE':
+      const patientIds = parseInt(req.query.id);
+      await PatientController.deletePatientById(patientIds);
+      res.json({ success: true });
+      break;
+    default:
+      res.status(405).end(); // Method Not Allowed
+      break;
   }
 }

@@ -6,6 +6,10 @@ class PatientController {
     return await this.PatientService.getById(id);
   }
 
+  static async createPatient(patientData){
+    return await this.PatientService.create(patientData);
+  }
+
   static async  getAllPatients(){
     return await this.PatientService.getAll();
   }

@@ -23,6 +23,17 @@ class PatientService {
       return null
     }
   }
+
+  async create(newPatientData) {
+    try {
+      const newPatientId = await db('patients').insert(newPatientData);
+      return newPatientId;
+    } catch (error) {
+      console.error('Error creating a new patient:', error);
+      return null;
+    }
+  }
+
   async getAll(){
     try{
       const patient = await db("patients");

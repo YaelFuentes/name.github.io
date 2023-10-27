@@ -7,6 +7,10 @@ class ProductController {
     return await this.productService.getById(id);
   }
 
+  static async createProduct(productData) {
+    return await this.productService.create(productData);
+  }
+
   static async getAllProducts() {
     return await this.productService.getAll();
   }

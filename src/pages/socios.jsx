@@ -5,13 +5,14 @@ import axios from 'axios';
 import TableResponsive from '@/components/table';
 import SimpleModal from '@/components/Mui/modal';
 import SearchComponent from '@/components/searchInput';
+import SelectMui from '@/components/Mui/select';
 
 const socios = () => {
   const [client, setData] = useState([]);
   const [formData, setFormData] = useState({});
   const [filteredClient, setFilteredClient] = useState(client);
   const [lastMembershipNum, setLastMembershipNum] = useState('');
-  
+  const [selectedMethod, setSelectedMethod] = useState(1);
 
   const headers = [
     { id: 'membershipNum', label: 'Numero Socio', minWidth: 170 },
@@ -74,8 +75,28 @@ const socios = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post('/api/clients/newClient', formData)
-      if (response.status === 200) {
+      const dataToSendClient={
+        membershipNum: formData.membershipNum,
+        name: formData.name,
+        lastname: formData.lastname,
+        phone: formData.phone,
+        email: formData.email,
+        address: formData.address,
+        location: formData.location,
+        PayMethod:selectedMethod,
+      }
+      const dataToSendPatient = {
+        membershipNum: formData.membershipNum,
+        namePatient: formData.namePatient,
+        race: formData.race,
+        subRace: formData.subRace,
+        size: formData.size,
+        color: formData.color,
+        gender: formData.gender
+      }
+      const response = await axios.post('/api/clients/client', dataToSendClient)
+      const responsePatient = await axios.post('/api/patients/patient', dataToSendPatient)
+      if (response.status === 200 && responsePatient.status === 200) {
         console.log('Usuario guardado con exito')
       } else {
         console.error(response.data.message)
@@ -87,7 +108,6 @@ const socios = () => {
 
   const handleSearch = (searchTerm) => {
     const searchTermsArray = searchTerm.toLowerCase().split(' ');
-
     const filtered = client.filter((item) =>
       searchTermsArray.every(term =>
         Object.values(item).some((value) =>
@@ -95,7 +115,6 @@ const socios = () => {
         )
       )
     );
-
     const combinedFiltered = client.filter((item) =>
       searchTermsArray.some(term =>
         Object.values(item).some((value) =>
@@ -103,8 +122,10 @@ const socios = () => {
         )
       )
     );
-
     setFilteredClient(searchTermsArray.length > 1 ? combinedFiltered : filtered);
+  };
+  const handleSelectChange = (e) => {
+    setSelectedMethod(e.target.value);
   };
 
   return (
@@ -142,23 +163,29 @@ const socios = () => {
                                 placeholder=" "
                                 required
                                 onChange={handleChange} />
-                              <label for="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
+                              <label for="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                Nombre
+                              </label>
                             </div>
                             <div className="relative z-0 w-full mb-6 group">
                               <input type="text" name="lastname" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" "
                                 onChange={handleChange}
                                 required />
-                              <label for="floating_repeat_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Apellido</label>
+                              <label for="floating_repeat_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                Apellido
+                              </label>
                             </div>
                           </div>
-                          <div className="grid grid-cols-3 gap-4 md:grid-cols-2 md:gap-6">
+                          <div className="grid grid-cols-3 gap-4 md:grid-cols-3 md:gap-6">
                             <div className="relative z-0 w-full mb-6 group">
                               <input type="text" name="phone" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" "
                                 required
                                 onChange={handleChange} />
-                              <label for="floating_first_name" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Telefono (0261-2084810)</label>
+                              <label for="floating_first_name" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                Telefono (0261-2084810)
+                              </label>
                             </div>
                             <div className="col-span-2 relative z-0 w-full mb-6 group">
                               <input type="text" name="email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -170,7 +197,7 @@ const socios = () => {
                           </div>
                           <div className="grid grid-cols-3 gap-4">
                             <div className="col-span-2 relative z-0 w-full mb-6 group ">
-                              <input type="address" /* pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" */ name="address" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                              <input type="address" name="address" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" "
                                 required
                                 onChange={handleChange} />
@@ -191,12 +218,25 @@ const socios = () => {
                               </label>
                             </div>
                           </div>
-                          <div className="relative z-0 w-full mb-6 group">
-                            <input type="text" name="dni" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              placeholder=" "
-                              required
-                              onChange={handleChange} />
-                            <label for="floating_company" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">DNI</label>
+                          <div className='grid grid-cols-2 gap-4'>
+                            <div className="relative z-0 w-full mb-6 group">
+                              <input type="text" name="dni" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" "
+                                required
+                                onChange={handleChange} />
+                              <label for="floating_company" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">DNI</label>
+                            </div>
+                            <div>
+                              <SelectMui
+                                label='Metodo de cobro'
+                                name='PayMethod'
+                                onChange={handleSelectChange}
+                                options={[
+                                  { value: '1', label: 'Local' },
+                                  { value: '2', label: 'Cobrador' }
+                                ]}
+                              />
+                            </div>
                           </div>
                         </div>
                         <h3 className='text-center p-4'>Ingreso Mascotas</h3>
@@ -204,7 +244,7 @@ const socios = () => {
                           <div className="relative z-0 w-full mb-6 group">
                             <input
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              name='namePet'
+                              name='namePatient'
                               placeholder=" "
                               type="text"
                               required
@@ -217,7 +257,7 @@ const socios = () => {
                           <div className="relative z-0 w-full mb-6 group">
                             <input
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              name='racePet'
+                              name='race'
                               placeholder=" "
                               type="text"
                               required
@@ -230,7 +270,7 @@ const socios = () => {
                           <div className="relative z-0 w-full mb-6 group">
                             <input
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              name='subRacePet'
+                              name='subRace'
                               placeholder=" "
                               type="text"
                               onChange={handleChange} />
@@ -244,7 +284,7 @@ const socios = () => {
                           <div className="relative z-0 w-full mb-6 group">
                             <input
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              name='sizePet'
+                              name='size'
                               placeholder=" "
                               type="text"
                               required
@@ -257,7 +297,7 @@ const socios = () => {
                           <div className="relative z-0 w-full mb-6 group">
                             <input
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              name='colorPet'
+                              name='color'
                               placeholder=" "
                               type="text"
                               required
@@ -270,7 +310,7 @@ const socios = () => {
                           <div className="relative z-0 w-full mb-6 group">
                             <input
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              name='genderPet'
+                              name='gender'
                               placeholder=" "
                               type="text"
                               required

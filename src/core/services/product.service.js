@@ -1,3 +1,4 @@
+import {db} from '../connection/databaseService.js';
 class ProductService {
   constructor(id, name, dateExpiration, price, quantity) {
     this.id = id;
@@ -9,7 +10,7 @@ class ProductService {
 
   async getById(id) {
     try {
-      const product = await knex("products").where("id", id).first();
+      const product = await db("products").where("id", id).first();
       return product;
     } catch (error) {
       console.error("Error fetching product by ID:", error);
@@ -19,7 +20,7 @@ class ProductService {
 
   async getAll() {
     try {
-      const allProducts = await knex("products");
+      const allProducts = await db("products");
       return allProducts;
     } catch (error) {
       console.error("Error fetching all products:", error);
@@ -27,9 +28,19 @@ class ProductService {
     }
   }
 
+  async create(newProductData) {
+    try {
+      const newProductId = await db('products').insert(newProductData);
+      return newProductId;
+    } catch (error) {
+      console.error('Error creating a new client:', error);
+      return null;
+    }
+  }
+
   async deleteByIds(ids) {
     try {
-      await knex("products").whereIn("id", ids).del();
+      await db("products").whereIn("id", ids).del();
       return true;
     } catch (error) {
       console.error("Error deleting products by IDs:", error);
@@ -40,7 +51,7 @@ class ProductService {
   async updateByIds(updates) {
     try {
       const promises = updates.map((update) =>
-        knex("products").where("id", update.id).update(update)
+      db("products").where("id", update.id).update(update)
       );
 
       await Promise.all(promises);

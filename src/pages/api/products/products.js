@@ -12,6 +12,11 @@ export default async function handler(req, res) {
         res.json(product);
       }
       break;
+    case 'POST':
+      const fieldsUpdate = req.body;
+      const product = await ProductController.createProduct(fieldsUpdate);
+      res.status(201).json(product)
+      break;
     case 'PUT':
       const productId = parseInt(req.query.id);
       const fieldsToUpdate = req.body;
