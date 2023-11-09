@@ -14,8 +14,8 @@ class ClientController {
     return await this.clientService.getAll();
   }
 
-  static async updateClientById(fieldsToUpdate) {
-    return await this.clientService.updateByIds(fieldsToUpdate);
+  static async updateClientById(ids, fieldsToUpdate) {
+    return await this.clientService.updateByIds(ids, fieldsToUpdate);
   }
 
   static async deleteClientById(ids) {

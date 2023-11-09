@@ -30,19 +30,18 @@ function MyApp({ Component, pageProps }) {
     setIsLoggedIn(isAuthenticated);
   }, []);
 
-  // Redirigir a la página de inicio de sesión si el usuario no ha iniciado sesión y está intentando acceder a una página protegida
   useEffect(() => {
     if (!isLoggedIn && !isLoginPage) {
       router.push('/login');
     }
   }, [isLoggedIn, router.pathname]);
 
-  const isLoginPage = router.pathname === '/login'; // Verificar si la ruta actual es la página de inicio de sesión
+  const isLoginPage = router.pathname === '/login';
   const apiKey = process.env.API_KEY
 
   return (
     <main className={`${montserrat.variable} font-mont bg-light dark:bg-dark w-full min-h-screen`}>
-      {!isLoginPage && isLoggedIn && <ResponsiveAppBar />} {/* Ocultar la ResponsiveAppBar en la página de inicio de sesión y cuando no se ha iniciado sesión */}
+      {!isLoginPage && isLoggedIn && <ResponsiveAppBar />}
       <SWRConfig
         value={{
           fetcher: fetch,

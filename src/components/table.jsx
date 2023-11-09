@@ -4,7 +4,7 @@ import axios from 'axios';
 import Link from 'next/link'
 import { useRouter } from 'next/router';
 
-export default function TableResponsive({ columns, rows, optional }) {
+export default function TableResponsive({ columns, rows, optional, routes, idLink }) {
   const router = useRouter()
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState({});
@@ -70,8 +70,8 @@ export default function TableResponsive({ columns, rows, optional }) {
                     <td class="px-6 py-4" key={`${i.id}-${column.id}`} >
                       <button onClick={() => {
                         router.push({
-                          pathname: `/membership/[id]`,
-                          query: { id: i.membershipNum }
+                          pathname: `/${routes}/[id]`,
+                          query: { id: i.membershipNum || i.id }
                         })
                       }}>
                         {i[column.id]}

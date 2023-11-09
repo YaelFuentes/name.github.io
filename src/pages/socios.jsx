@@ -333,6 +333,7 @@ const socios = () => {
             <TableResponsive
               columns={headers}
               rows={filteredClient}
+              routes={'membership'}
               optional={
                 <>
                   <button>hola</button>

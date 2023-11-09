@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-export default function BasicTextFields({ name }) {
+export default function BasicTextFields({label, onChange, className, id}) {
   return (
     <Box
       component="form"
@@ -12,7 +12,7 @@ export default function BasicTextFields({ name }) {
       noValidate
       autoComplete="off"
     >
-      <TextField id="outlined-basic" label={name} variant="outlined" />
+      <TextField label={label} id={id} variant="outlined" onChange={onChange} className={className}/>
     </Box>
   );
 }

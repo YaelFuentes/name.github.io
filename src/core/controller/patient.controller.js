@@ -14,8 +14,8 @@ class PatientController {
     return await this.PatientService.getAll();
   }
 
-  static async udpateClientById(fieldsToUpdate){
-    return await this.PatientService.updateByIds(fieldsToUpdate)
+  static async udpateClientById(ids, fieldsToUpdate){
+    return await this.PatientService.updateByIds(ids, fieldsToUpdate)
   }
 
   static async deletePatientById(ids){

@@ -1,4 +1,4 @@
-import {db} from '../connection/databaseService.js';
+import { db } from '../connection/databaseService.js';
 class ClientService {
   constructor(id, membershipNum, name, lastname, phone, email, address, dni) {
     this.id = id;
@@ -41,12 +41,20 @@ class ClientService {
     }
   }
 
-
-  async updateByIds(updates) {
+  async updateByIds(ids, updates) {
     try {
-      const promises = updates.map((update) =>
-        db("clients").where("id", update.id).update(update)
-      );
+      const updateArray = Array.isArray(updates) ? updates : [updates];
+
+      const promises = updateArray.map(async (update) => {
+        const keys = Object.keys(update);
+        const values = Object.values(update);
+
+        const updateObject = keys.reduce((acc, key, index) => {
+          return { ...acc, [key]: values[index] };
+        }, {});
+
+        await db("clients").where("membershipNum", ids).update(updateObject);
+      });
 
       await Promise.all(promises);
       return true;

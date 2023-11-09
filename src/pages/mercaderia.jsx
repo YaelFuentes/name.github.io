@@ -51,7 +51,7 @@ const Mercaderia = () => {
         <title>Mevep</title>
       </Head>
       <main>
-        <TableResponsive columns={headers} rows={products} />
+        <TableResponsive columns={headers} rows={products} routes={'products'} />
         <SimpleModal
           nameButton='Cargar Mercaderia'
           text='Agregar nueva producto'

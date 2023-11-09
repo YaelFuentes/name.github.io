@@ -15,8 +15,8 @@ class ProductController {
     return await this.productService.getAll();
   }
 
-  static async updateProductById(id, fieldsToUpdate) {
-    return await this.productService.updateByIds(fieldsToUpdate);
+  static async updateProductById(ids, fieldsToUpdate) {
+    return await this.productService.updateByIds(ids, fieldsToUpdate);
   }
 
   static async deleteProductById(ids) {

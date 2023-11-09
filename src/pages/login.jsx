@@ -1,9 +1,9 @@
 import { useState } from "react";
- import { userServiceFactory } from "../clientServices/userService";
+import { userServiceFactory } from "../clientServices/userService";
 import useUser from "../lib/useUser";
 import Loading from '@/components/loading'
 
- const userService = userServiceFactory();
+const userService = userServiceFactory();
 
 export default function Login() {
   const { user, mutateUser } = useUser({
@@ -16,14 +16,13 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
     try {
       setIsLoading(true);
       setTimeout(async () => {
-         mutateUser(await userService.login(username, password));
+        mutateUser(await userService.login(username, password));
         setIsLoading(false);
-      }, 5000)
+      }, 4000)
     } catch (error) {
       setIsLoading(false);
       alert(error.response.data.error);
@@ -52,15 +51,15 @@ export default function Login() {
                 ) : (
                   <div>
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                      <div className="p-4 space-y-4 md:space-y-6 sm:p-8">
+                        <div className="p-4 space-y-4 md:space-y-6 sm:p-8">
                           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                            <img className="mx-auto h-10 w-auto"
-                              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                            <img className="mx-auto h-28 w-auto"
+                              src="/img/login/LOGO.png"
                               alt="Mevep" />
                           </div>
-                          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Sign in to your account
+                          <h1 className="text-xl text-center ml-8 mr-8 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                            Veterinaria Mevep
                           </h1>
                           <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                             <div>
@@ -83,16 +82,16 @@ export default function Login() {
                                 placeholder="••••••••"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                             </div>
-                            <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
+                            <a href="#" class="text-sm font-medium text-primary-10 hover:underline dark:text-primary-500">Olvidaste la contraseña?</a>
                             <div>
                               <button
                                 type="submit"
-                                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                Sign in
+                                className="w-full text-white bg-primary-10 hover:bg-primary-20 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                Ingresar
                               </button>
-                              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Don’t have an account yet? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
-                              </p>
+                              {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                No recuerdas la contraseña? <a href="#" className="font-medium text-primary-10 hover:underline dark:text-primary-20">Sign up</a>
+                              </p> */}
                             </div>
                           </form>
                         </div>
@@ -102,7 +101,8 @@ export default function Login() {
                 )}
               </div>
             }
-          </section>}
+          </section>
+        }
       </div>
     </main >
   )

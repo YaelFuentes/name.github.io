@@ -1,7 +1,8 @@
-import {db} from '../connection/databaseService.js';
+import { db } from '../connection/databaseService.js';
 class ProductService {
-  constructor(id, name, dateExpiration, price, quantity) {
+  constructor(id, name, dateExpiration, price, quantity, priceCost) {
     this.id = id;
+    this.priceCost = priceCost
     this.name = name;
     this.dateExpiration = dateExpiration;
     this.price = price;
@@ -48,10 +49,11 @@ class ProductService {
     }
   }
 
-  async updateByIds(updates) {
+  async updateByIds(ids, updates) {
+    console.log('ids: ',ids, 'udpates: ',updates.map((item) => item))
     try {
       const promises = updates.map((update) =>
-      db("products").where("id", update.id).update(update)
+      db("products").where("id", ids).update(update)
       );
 
       await Promise.all(promises);
@@ -61,6 +63,25 @@ class ProductService {
       return false;
     }
   }
+/*   async updateByIds(ids, updates) {
+    console.log('ids: ',ids, 'udpates: ',updates)
+    try {
+      if (!Array.isArray(updates)) {
+        throw new Error("Updates should be an array");
+      }
+      console.log('ids: ',ids, 'udpates: ',updates)
+      const promises = updates.map((update) =>
+        db("clients").where("id", ids).update(update)
+      );
+
+      await Promise.all(promises);
+      return true;
+    } catch (error) {
+      console.error("Error updating client by IDs:", error);
+      return false;
+    }
+  } */
+
 }
 
 export default ProductService;
