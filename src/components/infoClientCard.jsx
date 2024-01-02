@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import Button from './Mui/Button';
+import moment from 'moment'
 
 const InfoClientCard = ({ id }) => {
   const [client, setClient] = useState([]);
@@ -32,8 +34,11 @@ const InfoClientCard = ({ id }) => {
   const handleSave = async () => {
     // Realiza la lógica para guardar los cambios en la base de datos o donde sea necesario.
     try {
-      await axios.put(`/api/clients/client?id=${id}`, editedClient);
-      await axios.put(`/api/patients/patient?id=${id}`, editedPatient);
+      const response = await axios.put(`/api/clients/client?id=${id}`, editedClient);
+      const responsePatient = await axios.put(`/api/patients/patient?id=${id}`, editedPatient);
+      if (response.status === 200 && responsePatient.status === 200) {
+        console.log('Editado exitosamente.')
+      }
       setEditMode(false);
     } catch (err) {
       console.error(err);
@@ -56,19 +61,25 @@ const InfoClientCard = ({ id }) => {
     });
   };
 
-  /* const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    const requestData = {
+      membershipNum: client.membershipNum,
+      patientName: patient.namePatient,
+      date: moment().format('YYYY-MM-DD'),
+      attention: 0,
+    };
     try {
-      const response = await axios.post('/api/queue/newQueue', client.membershipNum, patient.namePatient)
+      const response = await axios.post('/api/queue/queue', requestData)
       if (response.status === 200) {
         console.log('Añadido a la cola exitosamente')
       } else {
         console.error(response.data.message)
       }
     } catch (e) {
-      console.error(error)
+      console.error(e)
     }
-  } */
+  }
 
   return (
     <div>
@@ -202,9 +213,20 @@ const InfoClientCard = ({ id }) => {
           </>
         )}
         {/* Resto del contenido del componente */}
-        <button onClick={editMode ? handleSave : handleEdit}>
-          {editMode ? 'Guardar' : 'Editar'}
-        </button>
+        <div className='flex p-2 m-2'>
+          <div className='mr-2'>
+            <Button
+              onClick={editMode ? handleSave : handleEdit}
+              name={editMode ? 'Guardar' : 'Editar'}
+            />
+          </div>
+          <div>
+            <Button
+              onClick={handleSubmit}
+              name={'Añadir a la lista de espera'}
+            />
+          </div>
+        </div>
       </div>
       {/* Resto del contenido del componente */}
     </div>

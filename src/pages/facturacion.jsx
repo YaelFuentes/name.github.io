@@ -1,11 +1,8 @@
-/* import MapContainer from '@/components/maps/map'; */
 import React, { useState, useEffect } from 'react'
-/* import BasicTextFields from '@/components/Mui/textfield' */
 import axios from 'axios'
 import { format } from 'date-fns'
 
 const Facturacion = () => {
-  /* const coordinates = { lat: -32.897, lng: -68.830  }; */
   const [formData, setFormData] = useState({
     lastModification: format(new Date(), 'yyyy-MM-dd'),
     value: '',

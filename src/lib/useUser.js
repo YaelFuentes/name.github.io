@@ -1,15 +1,14 @@
-import { useEffect } from "react";
 import Router from "next/router";
 import useSWR from "swr";
 
 export default function useUser({
-  redirectTo = "",
+  redirectTo = "/",
   redirectIfFound = false,
 } = {}) {
   const { data: user, mutate: mutateUser } = useSWR("/api/user");
 
-  useEffect(() => {
-    if (!redirectTo || !user) return;
+  // Lógica de redirección
+  if (redirectTo && user) {
 
     if (
       (redirectTo && !redirectIfFound && !user?.isLoggedIn) ||
@@ -17,9 +16,7 @@ export default function useUser({
     ) {
       Router.push(redirectTo);
     }
-  }, [user, redirectIfFound, redirectTo]);
+  }
 
   return { user, mutateUser };
 }
-
-

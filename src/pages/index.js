@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import withSession from '../lib/session'
+import { useRouter } from 'next/router';
 
 import HomePage from './Home'
 
@@ -17,7 +17,7 @@ export default function Home({ user }) {
 export const getServerSideProps = withSession(async function ({ req, res }) {
   const user = req.session.get("user");
 
-  if (user === undefined) {
+  if (user === undefined && req.url !== '/login') {
     res.setHeader("location", "/login");
     res.statusCode = 302;
     res.end();

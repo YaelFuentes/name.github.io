@@ -11,18 +11,21 @@ export default function Login() {
     redirectIfFound: true,
   });
 
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //Actualizar y modificar ya que no se ve el responsiveAppBar y si o si tiene 
+    // que actualizar la pagina.
     try {
       setIsLoading(true);
-      setTimeout(async () => {
-        mutateUser(await userService.login(username, password));
-        setIsLoading(false);
-      }, 4000)
+      await new Promise((resolve) => setTimeout(resolve, 4000));
+      const userData = await userService.login(username, password);
+      window.location.reload();
+      mutateUser(userData);
     } catch (error) {
       setIsLoading(false);
       alert(error.response.data.error);
@@ -63,7 +66,7 @@ export default function Login() {
                           </h1>
                           <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                             <div>
-                              <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de usuario</label>
+                              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de usuario</label>
                               <input
                                 name="uname"
                                 type="text"
@@ -73,7 +76,7 @@ export default function Login() {
                                 placeholder="VeterinariaMevep" />
                             </div>
                             <div>
-                              <label for="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
+                              <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
                               <input
                                 name="psw"
                                 type="password"

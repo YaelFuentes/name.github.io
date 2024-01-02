@@ -7,4 +7,6 @@ export { default as MedicalController } from "./medical.controller";
 export { default as ConsultingController } from "./consulting.controller";
 export { default as QueueController } from "./queue.controller";
 export { default as FeeController } from "./fee.controller";
+export { default as UsersController } from '@/core/controller/users.controller'
+export { default as EventsController } from '@/core/controller/nodemailer.controller'
 

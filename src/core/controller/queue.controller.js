@@ -10,6 +10,10 @@ class QueueController {
     return await this.QueueServices.getAll();
   }
 
+  static async postQueue(fieldsToUpdate){
+    return await this.QueueServices.create(fieldsToUpdate)
+  }
+
   static async updateQueueById(fieldsToUpdate) {
     return await this.QueueServices.updateByIds(fieldsToUpdate);
   }

@@ -75,7 +75,7 @@ const socios = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const dataToSendClient={
+      const dataToSendClient = {
         membershipNum: formData.membershipNum,
         name: formData.name,
         lastname: formData.lastname,
@@ -83,7 +83,7 @@ const socios = () => {
         email: formData.email,
         address: formData.address,
         location: formData.location,
-        PayMethod:selectedMethod,
+        PayMethod: selectedMethod,
       }
       const dataToSendPatient = {
         membershipNum: formData.membershipNum,
@@ -108,6 +108,12 @@ const socios = () => {
 
   const handleSearch = (searchTerm) => {
     const searchTermsArray = searchTerm.toLowerCase().split(' ');
+
+    if (searchTermsArray.length === 0) {
+      setFilteredClient(client);
+      return;
+    }
+
     const filtered = client.filter((item) =>
       searchTermsArray.every(term =>
         Object.values(item).some((value) =>
@@ -115,14 +121,8 @@ const socios = () => {
         )
       )
     );
-    const combinedFiltered = client.filter((item) =>
-      searchTermsArray.some(term =>
-        Object.values(item).some((value) =>
-          value !== null && value.toString().toLowerCase().includes(term)
-        )
-      )
-    );
-    setFilteredClient(searchTermsArray.length > 1 ? combinedFiltered : filtered);
+
+    setFilteredClient(filtered);
   };
   const handleSelectChange = (e) => {
     setSelectedMethod(e.target.value);
@@ -330,15 +330,18 @@ const socios = () => {
                 <div id="alert-container"></div>
               </div>
             </div>
-            <TableResponsive
-              columns={headers}
-              rows={filteredClient}
-              routes={'membership'}
-              optional={
-                <>
-                  <button>hola</button>
-                </>
-              } />
+            <div className='m-3 p-3 '>
+              <TableResponsive
+                columns={headers}
+                rows={filteredClient}
+                routes={'membership'}
+                optional={
+                  <>
+                    <button>hola</button>
+                  </>
+                }
+              />
+            </div>
           </div>
 
         </Layout>

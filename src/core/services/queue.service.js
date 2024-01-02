@@ -1,4 +1,4 @@
-import { db } from '../connection/databaseService';
+import { db } from '../connection/databaseService.js';
 
 class QueueService {
   constructor(id, membershipNum, patientName, queuecol, attention, date) {
@@ -27,6 +27,36 @@ class QueueService {
     } catch (e) {
       console.error("Error fetching all clients:", e);
       return [];
+    }
+  }
+
+  async create(newData) {
+    try {
+      // Consultar el número más alto actual de queuecol para el día actual
+      const highestQueuecol = await db('queue')
+        .where('date', '=', newData.date) // Asegúrate de que date esté en formato 'YYYY-MM-DD'
+        .max('queuecol as maxQueuecol')
+        .first();
+
+        console.log(highestQueuecol)
+
+      // Obtener el nuevo valor de queuecol incrementando el número más alto actual
+      const newQueuecol = highestQueuecol.maxQueuecol !== null ? Number(highestQueuecol.maxQueuecol) + 1 : 1;
+
+
+      // Añadir el nuevo valor de queuecol a los datos del cliente
+      const clientDataWithQueuecol = {
+        ...newData,
+        queuecol: newQueuecol,
+      };
+
+      // Insertar los datos del cliente en la base de datos
+      const newClientId = await db('queue').insert(clientDataWithQueuecol);
+
+      return newClientId;
+    } catch (e) {
+      console.error('Error creating a new queue:', e);
+      return null;
     }
   }
 

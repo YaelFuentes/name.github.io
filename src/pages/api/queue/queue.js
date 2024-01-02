@@ -12,6 +12,21 @@ export default async function handler(req, res) {
         res.json(queue);
       }
       break;
+    case 'POST':
+      const { membershipNum, patientName, date, attention } = req.body;
+      const newQueueData = {
+        membershipNum,
+        patientName,
+        date,
+        attention,
+      };
+      const queue = await QueueController.postQueue(newQueueData)
+      if (queue) {
+        res.status(201).json({ queue });
+      } else {
+        res.status(500).json({ message: 'Error creating a new client' });
+      }
+      break;
     case 'PUT':
       const queueId = parseInt(req.query.id);
       const fieldsToUpdate = req.body;

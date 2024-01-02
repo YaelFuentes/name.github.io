@@ -17,18 +17,19 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
-  
 };
 
-export default function SimpleModal({ nameButton, text, optional}) {
+export default function SimpleModal({ nameButton, text, optional, styled, className }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Stack direction="row" spacing={2}>
-        <Button variant="contained" color="secondary" onClick={handleOpen}>{nameButton}</Button>
+      <Stack direction="row" spacing={2} className={className}>
+        <Button variant="contained" color="secondary" onClick={handleOpen}>
+          {nameButton}
+        </Button>
       </Stack>
       <Modal
         open={open}
@@ -36,7 +37,7 @@ export default function SimpleModal({ nameButton, text, optional}) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={styled ? styled : style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {text}
           </Typography>
