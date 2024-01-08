@@ -46,7 +46,7 @@ const idProduct = () => {
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <div class="grid gap-6 mb-6 md:grid-cols-2">
+      <div className="grid gap-6 mb-6 md:grid-cols-2">
         <div>
           <label /* for="first_name" */ className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre del producto</label>
           <input

@@ -55,11 +55,11 @@ export default async function handler(req, res) {
   }
 }
 
-schedule.scheduleJob('* * * * *', async function () {
+/* schedule.scheduleJob('* * * * *', async function () {
   try {
-    /* await sendMail() */
+     await sendMail()
     console.log('Notificaciones enviadas exitosamente.');
   } catch (e) {
     console.error('Error al enviar las notificaciones: ', e)
   }
-})
+}) */

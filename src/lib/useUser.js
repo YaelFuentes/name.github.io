@@ -6,17 +6,18 @@ export default function useUser({
   redirectIfFound = false,
 } = {}) {
   const { data: user, mutate: mutateUser } = useSWR("/api/user");
+  const loading = !user; // State to handle loading
 
   // Lógica de redirección
-  if (redirectTo && user) {
-
+  if (redirectTo) {
     if (
-      (redirectTo && !redirectIfFound && !user?.isLoggedIn) ||
-      (redirectIfFound && user?.isLoggedIn)
+      !loading &&
+      ((redirectIfFound && user?.isLoggedIn) ||
+        (!redirectIfFound && !user?.isLoggedIn))
     ) {
       Router.push(redirectTo);
     }
   }
 
-  return { user, mutateUser };
+  return { user, mutateUser, loading };
 }

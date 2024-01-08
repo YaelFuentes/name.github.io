@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios';
 import ResponsiveAppBar from '@/layout/headers'
 import { useState, useEffect } from 'react'
+import { AuthProvider } from '@/context/UserContext';
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -43,7 +44,9 @@ export default function App({ Component, pageProps }) {
         }
         }
       >{isLoggedIn && !isLoginPage && <ResponsiveAppBar />}
-        <Component {...pageProps} isLoggedIn={isLoggedIn}/>
+        <AuthProvider>
+          <Component {...pageProps} isLoggedIn={isLoggedIn} />
+        </AuthProvider>
       </SWRConfig>
     </main>
   )

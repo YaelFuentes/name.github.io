@@ -6,12 +6,16 @@ class MedicalController {
     return await this.medicalService.getById(id);
   }
 
+  static async createMedicalById(newData){
+    return await this.medicalService.create(newData)
+  }
+
   static async getAllMedical(){
     return await this.medicalService.getAll();
   }
 
-  static async udpateMedicalById(fieldsToUpdate){
-    return await this.medicalService.updateByIds(fieldsToUpdate);
+  static async udpateMedicalById(clientId, fieldsToUpdate){
+    return await this.medicalService.updateByIds(clientId, fieldsToUpdate);
   }
 
   static async deleteMedicalById(ids) {

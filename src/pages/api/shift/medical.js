@@ -12,10 +12,15 @@ export default async function handler(req, res) {
         res.json(medical)
       }
       break;
+    case 'POST':
+      const fieldsUpdate = req.body;
+      const medicalCreate = await MedicalController.createMedicalById(fieldsUpdate)
+      res.status(201).json(medicalCreate)
+      break;
     case 'PUT':
       const clientId = parseInt(req.query.id);
       const fieldsToUpdate = req.body;
-      await MedicalController.updateMedicalById(clientId, fieldsToUpdate);
+      await MedicalController.udpateMedicalById(clientId, fieldsToUpdate);
       res.json({ success: true });
       break;
     case 'DELETE':

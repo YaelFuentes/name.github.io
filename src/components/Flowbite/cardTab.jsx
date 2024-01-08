@@ -24,7 +24,7 @@ const CardTab = ({ tabs }) => {
           </button>
         ))}
       </div>
-      <div className="mt-4 p-4 bg-gray-100 w-full md:max-w-md">
+      <div className="mt-4 p-4 bg-gray-100 w-124 ">
         {tabs[activeTab].content}
       </div>
     </div>

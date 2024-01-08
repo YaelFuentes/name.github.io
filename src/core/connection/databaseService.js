@@ -14,17 +14,21 @@ const db = knex({
 
 
 const databaseServiceFactory = () => {
-  const TABLE = 'users';
+  try {
+    const TABLE = 'users';
 
-  const getUser = async (username) => {
-    const user = await db(TABLE).select().where('username', username);
-    if (user.length === 0) {
-      throw new Error("User not found");
-    }
-    return user[0];
-  };
+    const getUser = async (username) => {
+      const user = await db(TABLE).select().where('username', username);
+      if (user.length === 0) {
+        throw new Error("User not found");
+      }
+      return user[0];
+    };
 
-  return { getUser };
+    return { getUser };
+  } catch (e) {
+    console.error('no se pudo conectar con db: ', e)
+  }
 };
 
 

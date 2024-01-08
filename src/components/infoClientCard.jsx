@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import moment from 'moment';
 import Button from './Mui/Button';
-import moment from 'moment'
+import SimpleModal from './Mui/modal';
+import NewHistorys from './fragments/newHistorys';
+import RenderClientForm from './fragments/infoClient/renderClientForm';
+import RenderClientInfo from './fragments/infoClient/renderClientInfo';
 
 const InfoClientCard = ({ id }) => {
   const [client, setClient] = useState([]);
@@ -10,35 +14,41 @@ const InfoClientCard = ({ id }) => {
   const [editedClient, setEditedClient] = useState({});
   const [editedPatient, setEditedPatient] = useState({});
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/clients/client?id=${id}`);
-        const responsePatient = await axios.get(`/api/patients/patient?id=${id}`);
-        setPatient(responsePatient.data)
-        setClient(response.data);
-        setEditedClient(response.data);
-        setEditedPatient(responsePatient.data);
+        const [clientResponse, patientResponse] = await Promise.all([
+          axios.get(`/api/clients/client?id=${id}`),
+          axios.get(`/api/patients/patient?id=${id}`),
+        ]);
+
+        setClient(clientResponse.data);
+        setPatient(patientResponse.data);
+        setEditedClient(clientResponse.data);
+        setEditedPatient(patientResponse.data);
       } catch (err) {
         console.error(err);
       }
-    }
-    fetchData()
-  }, [id])
+    };
+
+    fetchData();
+  }, [id]);
 
   const handleEdit = () => {
     setEditMode(true);
   };
 
   const handleSave = async () => {
-    // Realiza la lógica para guardar los cambios en la base de datos o donde sea necesario.
     try {
-      const response = await axios.put(`/api/clients/client?id=${id}`, editedClient);
-      const responsePatient = await axios.put(`/api/patients/patient?id=${id}`, editedPatient);
-      if (response.status === 200 && responsePatient.status === 200) {
-        console.log('Editado exitosamente.')
+      const [clientResponse, patientResponse] = await Promise.all([
+        axios.put(`/api/clients/client?id=${id}`, editedClient),
+        axios.put(`/api/patients/patient?id=${id}`, editedPatient),
+      ]);
+
+      if (clientResponse.status === 200 && patientResponse.status === 200) {
+        console.log('Editado exitosamente.');
       }
+
       setEditMode(false);
     } catch (err) {
       console.error(err);
@@ -62,175 +72,59 @@ const InfoClientCard = ({ id }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
     const requestData = {
       membershipNum: client.membershipNum,
       patientName: patient.namePatient,
       date: moment().format('YYYY-MM-DD'),
       attention: 0,
     };
+
     try {
-      const response = await axios.post('/api/queue/queue', requestData)
+      const response = await axios.post('/api/queue/queue', requestData);
       if (response.status === 200) {
-        console.log('Añadido a la cola exitosamente')
+        console.log('Añadido a la cola exitosamente');
       } else {
-        console.error(response.data.message)
+        console.error(response.data.message);
       }
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }
+  };
 
   return (
-    <div>
-      <div>
-        {editMode ? (
-          <>
-            <div>
-              <div className='bg-gray-200 p-4 grid grid-cols-3 gap-4'>
-                <input
-                  type="text"
-                  name="membershipNum"
-                  value={editedClient.membershipNum}
-                  onChange={handleClientChange}
-                />
-                <input
-                  type="text"
-                  name="name"
-                  value={editedClient.name}
-                  onChange={handleClientChange}
-                />
-                <select name="payMethod" onChange={handleClientChange}>
-                  <option value="1">Local</option>
-                  <option value="2">Cobrador</option>
-                </select>
-              </div>
-              <div className='bg-blue-200 p-4 grid grid-cols-3 gap-4 md:grid-cols-2'>
-                <input
-                  type="text"
-                  name="address"
-                  value={editedClient.address}
-                  onChange={handleClientChange}
-                />
-                <input
-                  type="text"
-                  name="email"
-                  value={editedClient.email}
-                  onChange={handleClientChange}
-                />
-                <input
-                  type="text"
-                  name="phone"
-                  value={editedClient.phone}
-                  onChange={handleClientChange}
-                />
-              </div>
-            </div>
-            <div className='bg-gray-200 p-4 grid grid-cols-3 gap-4 mt-6'>
-              <input
-                type="text"
-                name="namePatient"
-                value={editedPatient.namePatient}
-                onChange={handlePatientChange}
-              />
-              <input
-                type="text"
-                name="race"
-                value={editedPatient.race}
-                onChange={handlePatientChange}
-              />
-            </div>
-            <div className='bg-blue-200 p-4 grid grid-cols-3 gap-4 md:grid-cols-2'>
-              <input
-                type="text"
-                name="subRace"
-                value={editedPatient.subRace}
-                onChange={handlePatientChange}
-              />
-              <input
-                type="text"
-                name="size"
-                value={editedPatient.size}
-                onChange={handlePatientChange}
-              />
-              <input
-                type="text"
-                name="gender"
-                value={editedPatient.gender}
-                onChange={handlePatientChange}
-              />
-              <input
-                type="text"
-                name="identification"
-                value={editedPatient.identification}
-                onChange={handlePatientChange}
-              />
-            </div>
-          </>
-        ) : (
-          <>
-            <div>
-              <div className='bg-gray-200 p-4 grid grid-cols-3 gap-4'>
-                <h3 className='font-bold text-lg text-black'>Nro de socio : <span>{client.membershipNum}</span></h3>
-                <h3 className='font-bold text-lg'>{client.lastname}, {client.name}</h3>
-                <h3 >Metodo de cobro : &nbsp;
-                  <span className='font-bold'>
-                    {client.PayMethod == 1 ? 'Local' : 'Cobrador'}
-                  </span>
-                </h3>
-              </div>
-              <div className='bg-blue-200 p-4 grid grid-cols-3 gap-4 md:grid-cols-2'>
-                <h3 >Domicilio : <span className='font-bold text-sm text-black'>{client.address}, {client.location}, {client.city}</span></h3>
-                <h3>email : <p className='font-bold text-sm text-black'>{client.email}</p></h3>
-                <h3>Telefono : <p className='font-bold text-sm text-black'>{client.phone}</p></h3>
-              </div>
-            </div>
-            <div>
-              <div className='bg-gray-200 p-4 grid grid-cols-3 gap-4 mt-6'>
-                <h3 className=''>
-                  Nombre Mascota : &nbsp;
-                  <span className='font-bold'>
-                    {patient.namePatient}
-                  </span>
-                </h3>
-                <h3>
-                  Raza : &nbsp;
-                  <span className='font-bold'>
-                    {patient.race}
-                  </span>
-                </h3>
-              </div>
-              <div className='bg-blue-200 p-4 grid grid-cols-3 gap-4 md:grid-cols-2'>
-                <h3>
-                  Sub Raza : &nbsp; <span className='font-bold'>{patient.subRace ? patient.subRace : ' - '}</span>
-                </h3>
-                <h3>Tamaño : <span className='font-bold'>{patient.size}</span></h3>
-                <h3>Color : <span className='font-bold'>{patient.color}</span></h3>
-                <h3>Genero : <span className='font-bold'>{patient.gender}</span></h3>
-                <h3>Numero de identificacion : <span className='font-bold'>{patient.identification ? patient.identification : ' - '}</span></h3>
-              </div>
-            </div>
-          </>
-        )}
-        {/* Resto del contenido del componente */}
-        <div className='flex p-2 m-2'>
-          <div className='mr-2'>
-            <Button
-              onClick={editMode ? handleSave : handleEdit}
-              name={editMode ? 'Guardar' : 'Editar'}
-            />
-          </div>
-          <div>
-            <Button
-              onClick={handleSubmit}
-              name={'Añadir a la lista de espera'}
-            />
-          </div>
+    <div className='w-full p-4'>
+      {editMode ?
+        <RenderClientInfo
+          editedClient={editedClient}
+          handleClientChange={handleClientChange}
+          editedPatient={editedPatient}
+          handlePatientChange={handlePatientChange}
+        />
+        :
+        <RenderClientForm
+          client={client}
+          patient={patient}
+        />
+      }
+      <div className='p-2 m-2'>
+        <div className='mr-2'>
+          <Button onClick={editMode ? handleSave : handleEdit} name={editMode ? 'Guardar' : 'Editar'} />
+        </div>
+        <div>
+          <Button onClick={handleSubmit} name={'Añadir a la lista de espera'} />
+        </div>
+        <div>
+          <SimpleModal
+            nameButton={'Cargar historial medico'}
+            text={`Añadir historial al paciente ${patient?.namePatient || ''}`}
+            optional={<NewHistorys namePatient={patient?.namePatient || ''} membershipNum={id} />}
+          />
         </div>
       </div>
-      {/* Resto del contenido del componente */}
     </div>
-  )
-}
+  );
+};
 
-export default InfoClientCard
+export default InfoClientCard;
