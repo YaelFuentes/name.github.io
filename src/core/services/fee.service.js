@@ -10,7 +10,7 @@ class FeeService {
 
   async getById(){
     try{
-      const fee = await db("fee").orderBy("lastModification", "desc").first()
+      const fee = await db("dues").orderBy("amount", "desc").first()
       return fee
     }catch(e){
       console.error("Error fetching fee by ID: ", e)

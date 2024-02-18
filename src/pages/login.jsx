@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { userServiceFactory } from "../clientServices/userService";
 import useUser from "../lib/useUser";
-import Loading from '@/components/loading'
+/* import Loading from '@/components/loading' */
 
 const userService = userServiceFactory();
 
@@ -18,8 +18,6 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //Actualizar y modificar ya que no se ve el responsiveAppBar y si o si tiene 
-    // que actualizar la pagina.
     try {
       setIsLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 4000));
@@ -44,13 +42,13 @@ export default function Login() {
     <main>
       <div>
         {!user ?
-          (<Loading />)
+          /* (<Loading />) */ <h1>Cargando</h1>
           :
           <section className="bg-gray-50 dark:bg-gray-900">
             {!user.isLoggedIn &&
               <div className="flex flex-col gap items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 {isLoading ? (
-                  <Loading /> // Mostrar el componente de carga si isLoading es true
+                  /* <Loading /> */ <h1>Cargando</h1>
                 ) : (
                   <div>
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">

@@ -48,6 +48,7 @@
     "react-big-calendar": "^1.8.5",
     "react-datepicker": "^4.5.0",
     "react-dom": "18.2.0",
+    "react-lottie": "^1.2.4",
     "react-perfect-scrollbar": "^1.5.8",
     "react-popper": "^2.2.5",
     "react-router-dom": "^6.12.0",

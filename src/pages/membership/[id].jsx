@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import CardTab from '@/components/Flowbite/cardTab';
 import InfoClientCard from '@/components/infoClientCard';
 import MedicalHistory from '@/components/fragments/medicalHistory';
+import DuesPay from '@/components/fragments/dues';
 
 const idMembership = () => {
   const router = useRouter();
@@ -20,9 +21,12 @@ const idMembership = () => {
     },
     {
       title: 'Historial medico',
-      content: <MedicalHistory id={clientId}/>
+      content: <MedicalHistory id={clientId} />
     },
-    { title: 'Cuotas', content: 'Contenido de la Tab 3' },
+    {
+      title: 'Cuotas',
+      content: <DuesPay id={clientId} />
+    },
   ];
 
   return (
