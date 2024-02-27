@@ -8,7 +8,7 @@ import ListShift from '@/components/Shift/listShift';
 const Turnos = () => {
   const tabs = [
     { label: 'Turno Medico' },
-    { label: 'Turno Peluqueria' },
+    { label: 'Listado de turnos' },
     { label: 'Consultorio' },
   ];
   const tabsContent = [
