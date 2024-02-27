@@ -31,8 +31,15 @@ class ProductService {
 
   async create(newProductData) {
     try {
-      const newProductId = await db('products').insert(newProductData);
-      return newProductId;
+      const transformedData = newProductData.map(product => ({
+        type: product[0], 
+        supplier: product[1],
+        name: product[3],
+        priceCost: product[5]
+      }));
+      /* const newProductId = await db('products').insert(newProductData);
+      return newProductId; */
+      console.log(transformedData)
     } catch (error) {
       console.error('Error creating a new client:', error);
       return null;

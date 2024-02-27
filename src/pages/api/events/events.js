@@ -46,7 +46,7 @@ export default async function handler(req, res) {
       break;
     case 'POST':
       const fieldsUpdate = req.body
-      const records = await EventsController.sendReminder(fieldsUpdate)
+      const records = await EventsController.create(fieldsUpdate)
       res.status(201).json(records)
       break;
     default:

@@ -4,7 +4,7 @@ import axios from 'axios';
 const ListShift = () => {
   const [list, setList] = useState([]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/consulting/consulting');
@@ -14,11 +14,11 @@ const ListShift = () => {
       }
     }
     fetchData()
-  }, [])
+  }, []) */
 
   return (
     <div>
-      <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">List de espera para el consultorio:</h2>
+      {/* <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">List de espera para el consultorio:</h2>
       <ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
         {list.map((item) => {
           if (item.id === 1) {
@@ -43,7 +43,7 @@ const ListShift = () => {
             )
           }
         })}
-      </ul>
+      </ul> */}
     </div>
   )
 }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import Button from './Mui/Button';
-import SimpleModal from './Mui/modal';
-import NewHistorys from './fragments/newHistorys';
-import RenderClientForm from './fragments/infoClient/renderClientForm';
-import RenderClientInfo from './fragments/infoClient/renderClientInfo';
+import Button from '../../Mui/Button';
+import SimpleModal from '../../Mui/modal';
+import NewHistorys from '../newHistorys';
+import RenderClientForm from '../infoClient/renderClientForm';
+import RenderClientInfo from '../infoClient/renderClientInfo';
 
 const InfoClientCard = ({ id }) => {
   const [client, setClient] = useState([]);

@@ -9,11 +9,14 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import axios from 'axios'
+import { useRouter } from 'next/router';
 
 moment.locale('es');
 const localizer = momentLocalizer(moment);
 
 const Reminder = () => {
+  const router = useRouter();
+  const { mail } = router.query;
   const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '' });
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,7 +39,8 @@ const Reminder = () => {
       try {
         const response = await axios.get('/api/events/events')
         if (response.data !== null) {
-          const formattedEvents = response.data.map(event => ({
+          const filterDataEvents = response.data.filter(event => event.eventscol === 1)
+          const formattedEvents = filterDataEvents.map(event => ({
             title: event.content,
             start: moment(event.startDate).toDate(),
             end: moment(event.endDate).toDate(),
@@ -54,9 +58,10 @@ const Reminder = () => {
 
   const loadEvents = async () => {
     try {
-      const response = await axios.get('/api/recordatorios/recordatorios');
+      const response = await axios.get('/api/events/events');
       if (response.data !== null) {
-        const formattedEvents = response.data.map((event) => ({
+        const filterDataEvents = response.data.map(event => event.eventscol === 1)
+        const formattedEvents = filterDataEvents.map((event) => ({
           title: event.content,
           start: moment(event.startDate).toDate(),
           end: moment(event.endDate).toDate(),
@@ -77,10 +82,11 @@ const Reminder = () => {
           content: newEvent.title,
           startDate: moment(newEvent.start).format('YYYY-MM-DD HH:mm:ss'),
           endDate: moment(newEvent.end).format('YYYY-MM-DD HH:mm:ss'),
-          user: mail
+          user: mail,
+          eventscol: 1
         };
 
-        const response = await axios.post('/api/recordatorios/recordatorios', formattedEvent);
+        const response = await axios.post('/api/events/events', formattedEvent);
 
         if (response.data !== null) {
           setEvents([...events, formattedEvent]);

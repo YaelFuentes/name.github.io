@@ -6,7 +6,7 @@ export default function RenderClientForm({client, patient}) {
       <div >
         <div>
           <div className='bg-gray-200 p-4 grid grid-cols-3 gap-4'>
-            <h3 className='font-bold text-lg text-black'>Nro de socio : <span>{client.membershipNum}</span></h3>
+            <h3 className='font-bold text-lg text-black'>Nro de socio : <span>{client.membershipNum ? client.membershipNum : ' '}</span></h3>
             <h3 className='font-bold text-lg'>{client.lastname}, {client.name}</h3>
             <h3 >Metodo de cobro : &nbsp;
               <span className='font-bold'>
@@ -45,7 +45,7 @@ export default function RenderClientForm({client, patient}) {
             <h3>Numero de identificacion : <span className='font-bold'>{patient.identification ? patient.identification : ' - '}</span></h3>
           </div>
         </div>
-      </div>
+      </div>formData);formData);
     </>
   )
 }

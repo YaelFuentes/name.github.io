@@ -7,6 +7,7 @@ import axios from 'axios';
 import ResponsiveAppBar from '@/layout/headers'
 import { useState, useEffect } from 'react'
 import { AuthProvider } from '@/context/UserContext';
+if (typeof window !== 'undefined') import('@lottiefiles/lottie-player')
 
 const montserrat = Montserrat({
   subsets: ["latin"],

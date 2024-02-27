@@ -1,8 +1,9 @@
 import React from 'react'
 import { useRouter } from 'next/router';
 import CardTab from '@/components/Flowbite/cardTab';
-import InfoClientCard from '@/components/infoClientCard';
-import MedicalHistory from '@/components/fragments/medicalHistory';
+import InfoClientCard from '@/components/fragments/tabsClient/infoClientCard';
+import MedicalHistory from '@/components/fragments/tabsClient/medicalHistory';
+import QuotesClient from '@/components/fragments/tabsClient/quotesClient';
 
 const idMembership = () => {
   const router = useRouter();
@@ -20,9 +21,12 @@ const idMembership = () => {
     },
     {
       title: 'Historial medico',
-      content: <MedicalHistory id={clientId}/>
+      content: <MedicalHistory id={clientId} />
     },
-    { title: 'Cuotas', content: 'Contenido de la Tab 3' },
+    {
+      title: 'Cuotas',
+      content: <QuotesClient id={clientId}/>
+    },
   ];
 
   return (

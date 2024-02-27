@@ -1,13 +1,15 @@
 import { Inter } from 'next/font/google'
 import withSession from '../lib/session'
 import HomePage from './Home'
+import Login from './login'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({ user }) {
   return (
     <main className={`${inter.className}`}>
-      <HomePage user={user} />
+      {user !== undefined ? <HomePage user={user} /> : <Login />}
     </main>
   )
 }

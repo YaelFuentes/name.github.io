@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Tabs from '../Flowbite/cards';
+import Tabs from '../../Flowbite/cards';
 import moment from 'moment';
-import SimpleModal from '../Mui/modal';
+import SimpleModal from '../../Mui/modal';
 
 const MedicalHistory = ({ id }) => {
   const [data, setData] = useState([]);

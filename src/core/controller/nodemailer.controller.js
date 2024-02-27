@@ -1,6 +1,6 @@
 import { EventsService } from '@/core/services'
 
-class EventsController {
+class NodemailerController {
   static eventService = new EventsService();
   static async sendReminder(mailOptions){
     return await this.eventService.notificationMail(mailOptions)
@@ -10,4 +10,4 @@ class EventsController {
   }
 }
 
-export default EventsController;
+export default NodemailerController;

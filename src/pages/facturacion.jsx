@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { format } from 'date-fns'
+import moment from 'moment'
 
 const Facturacion = () => {
   const [formData, setFormData] = useState({
     lastModification: format(new Date(), 'yyyy-MM-dd'),
-    value: '',
+    amount: '',
   })
   const [lastValueFee, setLastValueFee] = useState({})
 
@@ -36,40 +37,45 @@ const Facturacion = () => {
       console.log('error', e)
     }
   }
-  console.log(lastValueFee.value)
 
   return (
     <div>
-      {/* <MapContainer centerCoords={coordinates}/> */}
       <div className='grid grid-cols-2 gap-4'>
-        <div>
-          <div className='font-bold text-xl text-center m-4 p-2'>Panel de administracion</div>
-          <div>Actualizar el monto de la cuota</div>
-          <form onSubmit={handleSubmit}>
+        <div className="p-4 ml-4 mt-4 bg-white rounded-lg shadow-md">
+          <div className='font-bold text-xl text-center mb-4'>Panel de administración</div>
+          <div className="mb-2">Actualizar el monto de la cuota</div>
+          <div className="mb-2">Última actualización realizada el día {moment(lastValueFee.date).format('DD-MM-YYYY')}</div>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
             <input
               type="date"
               name="lastModification"
               placeholder='Coloque fecha'
               value={formData.lastModification}
               required
-              onChange={handleChange} />
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md p-2"
+            />
             <input
               type="text"
               name="value"
-              placeholder={`Monto actual: $${lastValueFee.value}`}
-              value={formData.value}
+              placeholder={`Monto actual: $${lastValueFee.amount}`}
+              value={formData.amount}
               required
-              onChange={handleChange} />
-            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md p-2"
+            />
+            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               Guardar
             </button>
           </form>
+          {/* <form>
+            <div>Notificar a los usuarios via Email</div>
+          </form> */}
         </div>
-        <div>
-          <div className='font-bold text-xl text-center m-4 p-2'>Panel de facturacion</div>
+        <div className="p-4 mr-4 mt-4 bg-white rounded-lg shadow-md">
+          <div className='font-bold text-xl text-center mb-4'>Panel de facturación</div>
         </div>
       </div>
-
     </div>
   )
 }

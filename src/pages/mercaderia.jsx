@@ -4,6 +4,7 @@ import axios from 'axios'
 import Head from 'next/head'
 import SimpleModal from '@/components/Mui/modal'
 import SearchComponent from '@/components/searchInput'
+import MercaderiaXls from '@/components/fragments/xlsx/mercaderiaXlsx'
 
 const Mercaderia = () => {
   const [products, setProducts] = useState([]);
@@ -75,6 +76,9 @@ const Mercaderia = () => {
       <main>
         <div className='p-3 m-3'>
           <SearchComponent onSearch={handleSearch} />
+        </div>
+        <div>
+          <MercaderiaXls />
         </div>
         <div className='m-3 p-3'>
           <TableResponsive columns={headers} rows={filteredProduct} routes={'products'} />

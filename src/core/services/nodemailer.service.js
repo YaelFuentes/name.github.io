@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer')
 import { db } from '@/core/connection/databaseService'
 
-class EventsService {
+class NodemailerService {
   constructor(user, password, id, startDate, endDate) {
     this.user = user;
     this.password = password;
@@ -92,4 +92,4 @@ class EventsService {
     }
   }
 }
-export default EventsService;
+export default NodemailerService;

@@ -6,7 +6,7 @@ const Medical = () => {
   const [shiftMedical, setShiftMedical] = useState([]);
   const [list, setList] = useState([])
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchData = async () => {
       try {
         const consultingResponse = await axios.get('/api/consulting/consulting')
@@ -23,10 +23,8 @@ const Medical = () => {
       }
     }
     fetchData();
-  }, [])
+  }, []) */
 
-  console.log('shiftMedical', shiftMedical)
-  console.log('list', list)
 
   return (
     <div>
