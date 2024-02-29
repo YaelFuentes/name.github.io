@@ -1,29 +1,19 @@
-import React from 'react'
+import * as React from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
-export default function Loading() {
+export default function SimpleBackdrop() {
+
   return (
     <div>
-      <ul className="list-disc pl-6 mt-4 space-y-2">
-        <div role="status">
-          <lottie-player 
-          autoplay
-          loop
-          
-          src='https://lottie.host/521a1b99-dd0a-44be-9fc2-8e0f7a4bf095/d0rdwz7izd.json'
-          className='w-full h-auto'
-          />
-         {/*  <Player
-            autoplay
-            loop
-            priority
-            sizes='(max-width:768px) 100vw,
-              (max-width:1200px) 50vm, 50vw'
-            src={require('../LottieFiles/animation_llzbu7i0.json')}
-            className='w-full h-auto'
-          /> */}
-          <h2 className='text-center text-4xl font-bold'>Cargando</h2>
-        </div>
-      </ul>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={true}
+      >
+        <CircularProgress color="inherit" 
+        />
+        {/* <div>Cargando</div> */}
+      </Backdrop>
     </div>
-  )
+  );
 }

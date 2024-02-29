@@ -27,8 +27,8 @@ class PaymentsService {
         const diferenciaMeses = (currentYear - fechaUltimoPago.getFullYear()) * 12 + currentMonth - (fechaUltimoPago.getMonth() + 1);
         const nuevaFecha = new Date(fechaUltimoPago);
         nuevaFecha.setMonth(nuevaFecha.getMonth() + diferenciaMeses + 1); // Sumamos 1 mes para ir al mes siguiente
-        nuevaFecha.setDate(10); // Establecemos el día 10
-
+        nuevaFecha.setDate(10); 
+        
         dates.push({
           meses: diferenciaMeses,
           fechaUltimoPago: ultimoPago,

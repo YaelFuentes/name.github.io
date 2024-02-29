@@ -74,6 +74,14 @@ const Facturacion = () => {
         </div>
         <div className="p-4 mr-4 mt-4 bg-white rounded-lg shadow-md">
           <div className='font-bold text-xl text-center mb-4'>Panel de facturación</div>
+          <div>
+            <div className='text-lg m-2'>Monto total: $</div>
+            <div className='text-lg m-2'>Monto total del mes: $</div>
+            <div className='text-lg m-2'>Cobrazos en zona: $</div>
+            <div>Godoy cruz: $</div>
+            <div>Ciudad: $</div>
+            <div>Las Heras: $</div>
+          </div>
         </div>
       </div>
     </div>
