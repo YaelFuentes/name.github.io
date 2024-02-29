@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from 'next/link';
+import PersonIcon from '@mui/icons-material/Person';
 
 const settings = ['Profile', 'Account', 'Dashboard'];
 
@@ -36,28 +37,17 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: 'violet' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            MEVEP
-          </Typography>
-
+          <Link href='/'>
+            <img className="logo" // Agregamos la clase "logo" al elemento img
+              src="/img/login/LOGO.png"
+              alt="Mevep"
+              style={{ height: 85 }} // Establecemos el tamaño del logo aquí
+            />
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -108,12 +98,7 @@ function ResponsiveAppBar() {
                 <Button
                   onClick={handleCloseNavMenu}
                 >
-                  <Link href='/pagos'>Pagos</Link>
-                </Button>
-                <Button
-                  onClick={handleCloseNavMenu}
-                >
-                  <Link href='/turnos'>Turnos</Link>
+                  <Link href='/turnos'>Peluqueria</Link>
                 </Button>
               </Box>
             </Menu>
@@ -160,13 +145,7 @@ function ResponsiveAppBar() {
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: 'white', display: 'block', marginLeft: '20px' }}
             >
-              <Link href='/pagos'>Pagos</Link>
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block', marginLeft: '20px' }}
-            >
-              <Link href='/turnos'>Turnos</Link>
+              <Link href='/turnos'>Peluquería</Link>
             </Button>
             <Button
               onClick={handleCloseNavMenu}
@@ -183,8 +162,13 @@ function ResponsiveAppBar() {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton onClick={handleOpenUserMenu} sx={{
+                p: 0,
+                borderRadius: '50%', // Esto hará que el botón tenga forma de círculo
+                border: '5px solid gray',
+                background:'gray' // Puedes personalizar el ancho y el color del borde
+              }}>
+                <PersonIcon />
               </IconButton>
             </Tooltip>
             <Menu

@@ -19,7 +19,8 @@ const style = {
   p: 4,
 };
 
-export default function SimpleModal({ nameButton, text, optional, styled, className }) {
+
+export default function SimpleModal({ nameButton, text, optional, styled, className, styleText }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -38,7 +39,7 @@ export default function SimpleModal({ nameButton, text, optional, styled, classN
         aria-describedby="modal-modal-description"
       >
         <Box sx={styled ? styled : style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" style={styleText}>
             {text}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>

@@ -18,7 +18,7 @@ const socios = () => {
     { id: 'membershipNum', label: 'Numero Socio', minWidth: 170 },
     { id: 'name', label: 'Nombre', minWidth: 100 },
     { id: 'lastname', label: 'Apellido', minWidth: 100 },
-    { id: 'phone', label: 'Telefono', minWidth: 100 },
+    { id: 'phone', label: 'Contacto', minWidth: 100 },
     { id: 'address', label: 'Direccion', minWidth: 100 },
     { id: 'namePatient', label: 'Mascota', minWidth: 100 },
     { id: 'race', label: 'Raza', minWidth: 100 },
@@ -143,7 +143,8 @@ const socios = () => {
               <div className='m-2 p-4'>
                 <SimpleModal
                   nameButton='Agregar socio'
-                  text='Agregar socio nuevo'
+                  text='Agregar nuevo socio'
+                  styleText={{ color: '#9c27b0', textAlign: 'center'}}
                   optional={
                     <>
                       <form onSubmit={handleSubmit} className='w-full '>
@@ -232,14 +233,14 @@ const socios = () => {
                                 name='PayMethod'
                                 onChange={handleSelectChange}
                                 options={[
-                                  { value: '1', label: 'Local' },
-                                  { value: '2', label: 'Cobrador' }
+                                  { value: '1', label: 'Cobro en el local' },
+                                  { value: '2', label: 'Cobro en domicilio' }
                                 ]}
                               />
                             </div>
                           </div>
                         </div>
-                        <h3 className='text-center p-4'>Ingreso Mascotas</h3>
+                        <h2 className='m-2 text-xl text-center text-buttonColor'>Datos de la mascota</h2>
                         <div className='grid grid-cols-3 gap-4'>
                           <div className="relative z-0 w-full mb-6 group">
                             <input
@@ -276,7 +277,7 @@ const socios = () => {
                               onChange={handleChange} />
                             <label
                               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                              Sub Raza
+                              Sub-Raza
                             </label>
                           </div>
                         </div>
@@ -321,8 +322,8 @@ const socios = () => {
                             </label>
                           </div>
                         </div>
-                        <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                          Agregar socio nuevo
+                        <button type="submit" className="text-white bg-buttonColor hover:bg-buttonColor-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                          Agregar nuevo socio
                         </button>
                       </form>
                     </>

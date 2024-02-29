@@ -83,10 +83,11 @@ const Mercaderia = () => {
         <div className='m-3 p-3'>
           <TableResponsive columns={headers} rows={filteredProduct} routes={'products'} />
         </div>
-        <div className='p-3 m-3'>
+        <div className='m-2 p-4'>
           <SimpleModal
             nameButton='Cargar Mercaderia'
-            text='Agregar nueva producto'
+            text='Agregar nuevo producto'
+            styleText={{ color: '#9c27b0', textAlign: 'center' }}
             optional={
               <>
                 <form onSubmit={handleSubmit}>
@@ -135,8 +136,8 @@ const Mercaderia = () => {
                       Proveedor
                     </label>
                   </div>
-                  <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Cargar
+                  <button type="submit" className="text-white bg-buttonColor hover:bg-buttonColor-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Cargar nuevo producto
                   </button>
                 </form>
               </>
