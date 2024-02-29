@@ -1,16 +1,13 @@
-import { db } from "../connection/databaseService";
+import { db } from '@/core/connection/databaseService'
 
 class PaymentsService {
-  constructor(id, membershipNum, idDues, date, amountPay, departments, created_at) {
+  constructor(id, membershipNum, idDues, date, amountPay) {
     this.id = id;
     this.membershipNum = membershipNum;
     this.idDues = idDues;
     this.date = date;
     this.amountPay = amountPay;
-    this.departments = departments;
-    this.created_at = created_at;
   }
-
   async getById(id) {
     try {
       const client = await db("clients").where("membershipNum", id).first();
@@ -56,48 +53,51 @@ class PaymentsService {
       return [];
     }
   }
-
-  async getAll() {
+  async getAll(startDate, endDate) {
     try {
-      const allDuesDetails = await db("payments");
-      return allDuesDetails;
-    } catch (error) {
-      console.error("Error fetching all dues details:", error);
-      return [];
-    }
-  }
-  async create(data) {
-    try {
-      const newPatientId = await db('payments').insert(data);
-      return newPatientId;
+      const data = await db('payments')
+      .select('departments')
+      .sum('amountPay as totalAmount')
+      .whereBetween('date', [startDate, endDate])
+      .groupBy('departments');
+      return data
     } catch (e) {
-      console.error('Error creating a new payment:', e);
+      console.error("Error fetching payments by ID:", e);
       return null;
     }
   }
-
-  async deleteByIds(ids) {
+  async create(newData) {
     try {
-      await db("payments").whereIn("id", ids).del();
-      return true;
-    } catch (error) {
-      console.error("Error deleting dues details by IDs:", error);
-      return false;
+      const newPay = await db('payments').insert(newData)
+      return newPay
+      return
+    } catch (e) {
+      console.error("Error fetching payments by ID:", e);
+      return null;
     }
   }
-
-  async updateByIds(updates) {
+  async updateByIds(ids, updates) {
     try {
-      const promises = updates.map((update) =>
-        db("payments").where("id", update.id).update(update)
-      );
+      const updateArray = Array.isArray(updates) ? updates : [updates];
+
+      const promises = updateArray.map(async (update) => {
+        const keys = Object.keys(update);
+        const values = Object.values(update);
+
+        const updateObject = keys.reduce((acc, key, index) => {
+          return { ...acc, [key]: values[index] };
+        }, {});
+
+        await db("payments").where("membershipNum", ids).update(updateObject);
+      });
 
       await Promise.all(promises);
       return true;
-    } catch (error) {
-      console.error("Error updating dues details by IDs:", error);
-      return false;
+    } catch (e) {
+      console.error("Error fetching payments by ID:", e);
+      return null;
     }
   }
 }
+
 export default PaymentsService;

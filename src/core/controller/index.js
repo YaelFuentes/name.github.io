@@ -10,3 +10,5 @@ export { default as FeeController } from "./fee.controller";
 export { default as UsersController } from '@/core/controller/users.controller'
 export { default as NodemailerController } from '@/core/controller/nodemailer.controller'
 export { default as EventsController } from '@/core/controller/events.controller';
+export {default as PaymentsController } from '@/core/controller/payments.controller'
+export { default as DepartmentController } from '@/core/controller/departments.controller'

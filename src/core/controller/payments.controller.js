@@ -1,25 +1,18 @@
-import PaymentsService from "../services/payments.service.js";
+import { PaymentsService } from '@/core/services'
 
-class PaymentsController {
-  static paymentsService = new PaymentsService();
-  static async getDuesDetailsById(id) {
-    return await this.paymentsService.getById(id);
+class PaymentController {
+  static PaymentService = new PaymentsService()
+  static async getById(id) {
+    return await this.PaymentService.getById(id)
   }
-
-  static async getAllDuesDetails() {
-    return await this.paymentsService.getAll();
+  static async getAll(startDate, endDate) {
+    return await this.PaymentService.getAll(startDate, endDate);
   }
-  static async createPayments(data) {
-    return await this.paymentsService.create(data);
+  static async updateByIds(ids, updates) {
+    return await this.PaymentService.updateByIds(ids, updates)
   }
-
-  static async updateDuesDetailsById(fieldsToUpdate) {
-    return await this.paymentsService.updateByIds(fieldsToUpdate);
-  }
-
-  static async deleteDuesDetailsById(ids) {
-    return await this.paymentsService.deleteByIds(ids);
+  static async create(newData) {
+    return await this.PaymentService.create(newData)
   }
 }
-
-export default PaymentsController;
+export default PaymentController;

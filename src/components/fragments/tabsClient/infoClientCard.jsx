@@ -104,8 +104,8 @@ const InfoClientCard = ({ id }) => {
         />
         :
         <RenderClientForm
-          client={client}
-          patient={patient}
+          client={client ? client : ''}
+          patient={patient ? patient : ''}
         />
       }
       <div className='p-2 m-2'>

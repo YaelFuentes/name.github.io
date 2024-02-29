@@ -6,6 +6,7 @@ import TableResponsive from '@/components/table';
 import SimpleModal from '@/components/Mui/modal';
 import SearchComponent from '@/components/searchInput';
 import SelectMui from '@/components/Mui/select';
+import moment from 'moment';
 
 const socios = () => {
   const [client, setData] = useState([]);
@@ -75,6 +76,7 @@ const socios = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      const date = moment().format('YYYY-MM-DD')
       const dataToSendClient = {
         membershipNum: formData.membershipNum,
         name: formData.name,
@@ -84,6 +86,7 @@ const socios = () => {
         address: formData.address,
         location: formData.location,
         PayMethod: selectedMethod,
+        created_at: date
       }
       const dataToSendPatient = {
         membershipNum: formData.membershipNum,
@@ -92,7 +95,8 @@ const socios = () => {
         subRace: formData.subRace,
         size: formData.size,
         color: formData.color,
-        gender: formData.gender
+        gender: formData.gender,
+        created_at: date
       }
       const response = await axios.post('/api/clients/client', dataToSendClient)
       const responsePatient = await axios.post('/api/patients/patient', dataToSendPatient)
@@ -344,7 +348,6 @@ const socios = () => {
               />
             </div>
           </div>
-
         </Layout>
       </main>
     </>

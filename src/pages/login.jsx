@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { userServiceFactory } from "../clientServices/userService";
 import useUser from "../lib/useUser";
 import Loading from '@/components/loading'
@@ -42,7 +42,7 @@ export default function Login() {
     <main>
       <div>
         {!user ?
-          (<Loading />)
+          /* (<Loading />) */ <h1>Cargando</h1>
           :
           <section className="bg-gray-50 dark:bg-gray-900">
             <div className="absolute inset-0 w-full h-full z-0">
