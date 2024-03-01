@@ -7,7 +7,7 @@ import Select from '@mui/material/Select';
 
 export default function SelectMui({ label, name, value, onChange, options }) {
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: 160 }}>
       <FormControl fullWidth>
         <InputLabel>{label}</InputLabel>
         <Select
@@ -20,11 +20,12 @@ export default function SelectMui({ label, name, value, onChange, options }) {
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>
-          )) 
-          : 
-          <MenuItem>
-            BasicOption
-          </MenuItem>}
+          ))
+            :
+            <MenuItem>
+              BasicOption
+            </MenuItem>
+          }
         </Select>
       </FormControl>
     </Box>

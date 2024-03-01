@@ -1,25 +1,37 @@
-import { PaymentsController } from "@/core/controller";
+import { PaymentsController } from '@/core/controller'
 
-export default async function handler(req, res) {
+export default async function handles(req, res) {
   switch (req.method) {
-    case "GET":
+    case 'GET':
       if (req.query.id) {
-        const paymentId = parseInt(req.query.id);
-        const payment = await PaymentsController.getDuesDetailsById(paymentId)
-        res.json(payment);
+        const Id = parseInt(req.query.id)
+        const data = await PaymentsController.getById(Id)
+        res.json(data)
       } else {
-        const payments = await PaymentsController.getAllDuesDetails();
-        res.json(payments);
+        const startDate = req.query.startDate;
+        const endDate = req.query.endDate;
+        const data = await PaymentsController.getAll(startDate, endDate);
+        res.json(data)
       }
       break;
-    case "POST":
+    case 'POST':
       const fieldsUpdate = req.body;
-      const client = await PaymentsController.createPayments(fieldsUpdate);
-      res.status(201).json(client)
+      const data = await PaymentsController.create(fieldsUpdate);
+      res.status(201).json(data)
       break;
-    case "PUT":
+    case 'PUT':
+      const Id = parseInt(req.query.id);
+      const fieldsToUpdate = req.body;
+      await PaymentsController.updateByIds(Id, fieldsToUpdate);
+      res.json({ success: true })
       break;
-    case "DELETE":
+    case 'DELETE':
+      const patientIds = parseInt(req.query.id);
+      await PaymentsController.deletePatientById(patientIds);
+      res.json({ success: true });
+      break;
+    default:
+      res.status(405).end(); // Method Not Allowed
       break;
   }
 }

@@ -2,112 +2,119 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Button from '@/components/Mui/Button';
 import moment from 'moment';
+import SelectMui from '@/components/Mui/select';
 
 const QuotesClient = ({ id }) => {
-  const [client, setClient] = useState({});
-  const [pendingDues, setPendingDues] = useState([]);
-  const [amountPay, setAmountPay] = useState([]);
-  const [formData, setFormData] = useState({
-    membershipNum: '',
-    idDues: '',
-    date: moment().format('YYYY-MM-DD'),
-    amountPay: '',
-    departments: '',
-    created_at: moment().format('YYYY-MM-DD'),
-  });
-
+  const [data, setData] = useState({
+    client: {},
+    dues: {},
+    amount: {}
+  })
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [lastPaymentDate, setLastPaymentDate] = useState('');
+  const [totalCuotasAPagar, setTotalCuotasAPagar] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/clients/client?id=${id}`);
-        setClient(response.data);
-        const duesResponse = await axios.get(`/api/payments/payments?id=${id}`);
-        setPendingDues(duesResponse.data);
-        const responseAmount = await axios.get(`/api/fee/fee?id=1`)
-        setAmountPay(responseAmount.data);
+        const dataClient = await axios.get(`/api/clients/client?id=${id}`);
+        const dataDues = await axios.get(`/api/payments/payments?id=${id}`);
+        const dataAmount = await axios.get(`/api/fee/fee?id=1`);
+        if (dataClient.status === 200 && dataDues.status === 200 && dataAmount.status === 200) {
+          setData({
+            client: dataClient.data,
+            dues: dataDues.data,
+            amount: dataAmount.data
+          });
+          if (dataDues.data[0]?.fechaUltimoPago?.date) {
+            setLastPaymentDate(dataDues.data[0].fechaUltimoPago.date);
+          }
+          const months = [];
+          
+          const meses = data.dues[0] ? data.dues[0].meses : 0
+          console.log(meses)
+          let firstAvailableMonth = moment().add(1, 'month');// Comenzamos desde el próximo mes
+          if (lastPaymentDate) {
+            firstAvailableMonth = moment(lastPaymentDate).add(1, 'month');
+          }
+          console.log(lastPaymentDate)
+          for(let i = 0; i <= meses; i++) {
+            let currentMonth = moment(firstAvailableMonth).add(i, 'month');
+            months.push({
+              label: currentMonth.format('MMMM YYYY'),
+              value: currentMonth.format('MMMM YYYY'),
+            });
+          }
+          console.log(months)
+          setSelectedMonth(months.length > 0 ? months[0].value : '');
+          calculateTotalCuotasAPagar(months.value || '');
+        }
       } catch (e) {
-        console.error(e);
+        console.error('Error al traer los datos: ', e);
       }
     };
     fetchData();
-  }, [id]);
+  }, []);
 
-  useEffect(() => {
-    // Actualiza el formData cuando amountPay se carga
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      membershipNum: client.membershipNum,
-      idDues: amountPay.id,
-      amountPay: amountPay.amount,
-      departments: client.location,
-    }));
-  }, [amountPay, client]);
-
-  const handleSubmit = (fechaCuota) => {
-    const updatedFormData = {
-      ...formData,
-      date: moment(fechaCuota).format('YYYY-MM-DD'),
-    };
-    setFormData(updatedFormData);
+  const calculateTotalCuotasAPagar = (selectedMonth) => {
+    if (lastPaymentDate && selectedMonth) {
+      const startDate = moment(lastPaymentDate).startOf('month');
+      const endDate = moment(selectedMonth).startOf('month');
+      const totalMonths = endDate.diff(startDate, 'months') + 1;
+      setTotalCuotasAPagar(totalMonths);
+    }
   };
-  useEffect(() => {
-    sendPay(formData);
-  }, [formData]);
 
-  const sendPay = async () => {
+  const handleSubmit = async () => {
     try {
-      /* const response = await axios.post(`/api/payments/payments`, formData) */
-      console.log('envio al back: ', formData)
+      const response = await axios.post(`/api/payments/payments`)
     } catch (e) {
-      console.error('Error al realizar un pago: ', e)
+      console.error('Error al cargar los pagos: ', e)
     }
   }
 
-  const cuotasPendientes = [];
-  if (pendingDues.length > 0) {
-    const months = pendingDues[0].meses;
-    let fechaInicio;
-    if (pendingDues[0].fechaUltimoPago) {
-      fechaInicio = new Date(pendingDues[0].fechaUltimoPago.date);
+  const dates = () => {
+    if (data.dues.length > 0) {
+      if (data.dues[0].fechaUltimoPago !== null) {
+        return data.dues[0] ? moment(data.dues[0].fechaUltimoPago.date).format('DD-MM-YYYY') : 0
+      } else {
+        return data.dues[0] ? moment(data.dues[0].fechaCreacion).format('DD-MM-YYYY') : 0
+      }
     } else {
-      fechaInicio = new Date(pendingDues[0].fechaCreacion);
-    }
-  
-    for (let i = 1; i <= months; i++) {
-      const fechaCuota = new Date(fechaInicio);
-      fechaCuota.setMonth(fechaCuota.getMonth() + i);
-  
-      cuotasPendientes.push(
-        <div className="max-w-sm w-full lg:max-w-full lg:flex mb-4" key={i}>
-          <div className="border rounded overflow-hidden shadow-lg">
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">Cuota {i}</div>
-              <div>Monto a pagar: {pendingDues[0].amountPay}</div>
-              <p className="text-gray-700 text-base">Fecha de pago: {fechaCuota.toLocaleDateString()}</p>
-              <Button
-                name={'Pagar'}
-                onClick={() => handleSubmit(fechaCuota)}
-              />
-            </div>
-          </div>
-        </div>
-      );
+      return 'No hay datos que mostrar'
     }
   }
-  
-  
 
-  /* console.log(pendingDues);
-  console.log(client);
-  console.log(amountPay); */
+  const handleMonthChange = (value) => {
+    setSelectedMonth(value);
+    calculateTotalCuotasAPagar(value);
+  };
+
+  console.log(data);
+  console.log(selectedMonth);
 
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4 text-center">
-        <strong>{pendingDues.length}</strong> cuota/s pendientes del cliente {client.lastname} {client.name}
+        <strong>{data.dues[0] ? data.dues[0].meses : '0'}</strong> cuota/s pendientes del cliente {data.client.lastname} {data.client.name}
       </h1>
       <div className='grid grid-cols-6 gap-4'>
-        {cuotasPendientes}
+        <div>
+          Pagar desde : {dates()}
+        </div>
+        <div>
+          <SelectMui
+            label="Seleccionar mes de pago"
+            options={selectedMonth ? [{ label: selectedMonth, value: selectedMonth }] : []}
+            value={selectedMonth}
+            onChange={handleMonthChange}
+          />
+        </div>
+        <div className="m-5">
+          <Button
+            name={`Pagar (${totalCuotasAPagar} cuotas)`}
+            onClick={handleSubmit}
+          />
+        </div>
       </div>
     </div>
   );

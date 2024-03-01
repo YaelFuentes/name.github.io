@@ -6,25 +6,66 @@ import moment from 'moment'
 const Facturacion = () => {
   const [formData, setFormData] = useState({
     lastModification: format(new Date(), 'yyyy-MM-dd'),
-    amount: '',
+    startDate: format(new Date(), 'yyyy-MM-dd'),
+    endDate: format(new Date(), 'yyyy-MM-dd'),
+    amount: ''
   })
   const [lastValueFee, setLastValueFee] = useState({})
+  const [amounts, setAmounts] = useState({
+    total: 0,
+    payCity: 0,
+    payLH: 0,
+    payGC: 0,
+  })
+  const [departments, setDepartments] = useState([])
 
   const handleChange = ({ target }) => {
     setFormData({ ...formData, [target.name]: target.value })
   };
+  console.log(formData)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const date = {
+          startDate: formData.startDate,
+          endDate: formData.endDate
+        }
         const response = await axios.get('/api/fee/fee?id=1')
+        const amountPayments = await axios.get(`/api/payments/payments?startDate=${formData.startDate}&endDate=${formData.endDate}`, )
+        const departments = await axios.get('/api/department/department')
+        setDepartments(departments.data)
         setLastValueFee(response.data)
+        const totalAmountsByDepartment = amountPayments.data.reduce((acc, payment) => {
+          const department = payment.departments;
+          const amountPay = payment.totalAmount || 0;
+
+          if (!acc[department]) {
+            acc[department] = 0;
+          }
+
+          acc[department] += amountPay;
+
+          return acc;
+        }, {});
+        const totalAmount = Object.values(totalAmountsByDepartment).reduce(
+          (total, amount) => total + amount,
+          0
+        );
+        setAmounts({ 
+          total: totalAmount, 
+          payCity: totalAmountsByDepartment[2], 
+          payLH: totalAmountsByDepartment[1],
+          payGC: totalAmountsByDepartment[3]
+        })
+        console.log(totalAmount);
+        console.log(totalAmountsByDepartment)
       } catch (e) {
         console.error('Error al recibir los fee: ', e)
       }
     }
     fetchData();
-  }, [])
+  }, [formData.startDate, formData.endDate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -73,8 +114,38 @@ const Facturacion = () => {
             <div>Notificar a los usuarios via Email</div>
           </form> */}
         </div>
-        <div className="p-4 mr-4 mt-4 bg-white rounded-lg shadow-md">
-          <div className='font-bold text-xl text-center mb-4'>Panel de facturación</div>
+        <div>
+          <div className='font-bold text-xl text-center m-4 p-2'>
+            Panel de facturacion
+          </div>
+          <div>
+            <input
+              type="date"
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleChange}
+            />
+            <input
+              type="date"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <div>
+              Monto total de cuotas cobradas :  ${amounts.total}
+            </div>
+            <div>
+              Monto total de Ciudad: ${amounts.payCity}
+            </div>
+            <div>
+              Monto total de Las Heras: ${amounts.payLH}
+            </div>
+            <div>
+              Monto total de Godoy Cruz: ${amounts.payGC}
+            </div>
+          </div>
         </div>
       </div>
     </div>
