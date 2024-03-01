@@ -5,13 +5,13 @@ export default function Loading() {
     <div>
       <ul className="list-disc pl-6 mt-4 space-y-2">
         <div role="status">
-          <lottie-player 
+          {/* <lottie-player 
           autoplay
           loop
           
           src='https://lottie.host/521a1b99-dd0a-44be-9fc2-8e0f7a4bf095/d0rdwz7izd.json'
           className='w-full h-auto'
-          />
+          /> */}
          {/*  <Player
             autoplay
             loop

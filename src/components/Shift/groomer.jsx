@@ -139,7 +139,7 @@ const Groomer = () => {
   return (
     <>
       <div>
-        <h1 className='font-bold m-2 text-xl text-center'>Calendario de recordatorios</h1>
+        <h1 className='font-bold m-2 text-xl text-center'>Turnos de peluquería</h1>
         <Calendar
           localizer={localizer}
           events={events}

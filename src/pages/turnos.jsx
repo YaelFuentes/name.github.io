@@ -7,19 +7,11 @@ import ListShift from '@/components/Shift/listShift';
 
 const Turnos = () => {
   const tabs = [
-    { label: 'Turno Medico' },
     { label: 'Listado de turnos' },
-    { label: 'Consultorio' },
   ];
   const tabsContent = [
     {
-      content: <Medical />
-    },
-    {
       content: <Groomer />
-    },
-    {
-      content: <ListShift />
     },
   ];
   return (
@@ -29,11 +21,8 @@ const Turnos = () => {
           <title>Mevep</title>
         </Head>
       </div>
-      <div>
-        <VerticalTabs
-          tabs={tabs}
-          tabsContent={tabsContent}
-        />
+      <div className='p-2 m-2'>
+       <Groomer/>
       </div>
     </div>
   )

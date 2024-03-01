@@ -13,9 +13,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from 'next/link';
-import PersonIcon from '@mui/icons-material/Person';
+import PetsIcon from '@mui/icons-material/Pets';
 
-const settings = ['Profile', 'Account', 'Dashboard'];
+const settings = [''];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -37,7 +37,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'violet' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#BD1EC2' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
@@ -161,14 +161,14 @@ function ResponsiveAppBar() {
             </Button>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Opciones">
               <IconButton onClick={handleOpenUserMenu} sx={{
                 p: 0,
                 borderRadius: '50%', // Esto hará que el botón tenga forma de círculo
                 border: '5px solid gray',
                 background:'gray' // Puedes personalizar el ancho y el color del borde
               }}>
-                <PersonIcon />
+                <PetsIcon />
               </IconButton>
             </Tooltip>
             <Menu
@@ -187,15 +187,9 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-
-                </MenuItem>
-              ))}
               <MenuItem>
                 <Typography textAlign="center">
-                  <a href='/api/logout'>Logout</a>
+                  <a href='/api/logout'>Cerrar Sesión</a>
                 </Typography>
               </MenuItem>
             </Menu>
